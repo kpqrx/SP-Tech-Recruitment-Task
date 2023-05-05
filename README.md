@@ -19,7 +19,7 @@
 
 - 5 maja:
   - [x] analiza problemu
-  - [x] przygotowanie designów - [Figma](https://www.figma.com/file/2kv37BvNj3hucj2qLP23fn)
+  - [x] przygotowanie makiet - [Figma](https://www.figma.com/file/2kv37BvNj3hucj2qLP23fn)
   - [x] przygotowanie projektu: instalacja bibliotek i konfiguracja
   - [x] przygotowanie zestawu danych
 - 6 maja:
