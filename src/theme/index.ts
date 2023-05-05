@@ -1,7 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import designTokens from "../../design-tokens.json";
 
-const { fontFamily, spacing, ...theme } = designTokens;
+const { fontFamily, spacing, fontSize, fontWeight, lineHeight, ...theme } =
+  designTokens;
 
 export const GlobalStyle = createGlobalStyle`
     *, *::before, *::after {
@@ -28,6 +29,31 @@ export const GlobalStyle = createGlobalStyle`
 
 export default {
   ...theme,
+  fontSize,
+  fontWeight,
+  lineHeight,
+  typography: {
+    xs: {
+      fontSize: fontSize.xs,
+      lineHeight: lineHeight.xs,
+      fontWeight,
+    },
+    sm: {
+      fontSize: fontSize.sm,
+      lineHeight: lineHeight.sm,
+      fontWeight,
+    },
+    base: {
+      fontSize: fontSize.md,
+      lineHeight: lineHeight.md,
+      fontWeight,
+    },
+    lg: {
+      fontSize: fontSize.lg,
+      lineHeight: lineHeight.lg,
+      fontWeight,
+    },
+  },
   spacing: (...values: (keyof typeof spacing)[]) =>
     values.map((value) => spacing[value]).join(" "),
 };
