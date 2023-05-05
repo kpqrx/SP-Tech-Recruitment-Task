@@ -1,0 +1,48 @@
+{
+  "services": [
+    {
+      "id": 0,
+      "type": "internet",
+      "price": {
+        "2023": 39,
+        "2024": 49,
+        "2025": 59
+      }
+    },
+    {
+      "id": 1,
+      "type": "television",
+      "price": {
+        "2023": 49,
+        "2024": 49,
+        "2025": 59
+      }
+    },
+    {
+      "id": 2,
+      "type": "telephone",
+      "price": 29
+    },
+    {
+      "id": 3,
+      "type": "4kDecoder",
+      "dependsOn": [1],
+      "price": 29
+    }
+  ],
+  "packages": [
+    {
+      "services": [0, 1],
+      "optionalServices": [3],
+      "price": {
+        "2023": 79,
+        "2024": 89,
+        "2025": 99
+      }
+    },
+    {
+      "services": [0, 2],
+      "price": 64
+    }
+  ]
+}
