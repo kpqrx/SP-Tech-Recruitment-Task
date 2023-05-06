@@ -3,7 +3,7 @@ import styled from "styled-components"
 export const StyledContainer = styled.div`
   ${({ theme }) => theme.typography.base};
   color: ${({ theme }) => theme.color.black};
-  gap: ${({ theme }) => theme.spacing("xs")};
+  gap: ${({ theme }) => theme.spacing("xxs")};
   display: flex;
   flex-flow: column;
 `

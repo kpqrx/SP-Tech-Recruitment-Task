@@ -1,10 +1,12 @@
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components"
 
 export const StyledContainer = styled.button<{
-  $variant: "primary" | "secondary";
+  $variant: "primary" | "secondary"
 }>`
   ${({ theme }) => theme.typography.base};
   color: ${({ theme }) => theme.color.black};
+  white-space: nowrap;
+  cursor: pointer;
 
   ${({ $variant }) =>
     $variant === "primary" &&
@@ -19,6 +21,11 @@ export const StyledContainer = styled.button<{
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.spacing("sm")};
-      padding: ${({ theme }) => theme.spacing("sm", "md")};
+      padding: ${({ theme }) => theme.spacing("sm", "sm", "sm")} 2px;
+
+      svg {
+        width: 100%;
+        max-width: 24px;
+      }
     `};
-`;
+`
