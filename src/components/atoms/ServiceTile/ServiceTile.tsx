@@ -3,10 +3,10 @@ import {
   StyledPrice,
   StyledInput,
   StyledOffer,
-} from "@/components/atoms/ServiceTile/ServiceTile.styled";
-import type { ServiceTileProps } from "@/components/atoms/ServiceTile/ServiceTile.types";
-import type { ChangeEvent } from "react";
-import { useCallback, useState } from "react";
+} from "@/components/atoms/ServiceTile/ServiceTile.styled"
+import type { ServiceTileProps } from "@/components/atoms/ServiceTile/ServiceTile.types"
+import type { ChangeEvent } from "react"
+import { useCallback, useState } from "react"
 
 function ServiceTile(props: ServiceTileProps) {
   const {
@@ -16,19 +16,22 @@ function ServiceTile(props: ServiceTileProps) {
     disabled = false,
     onChange,
     ...restProps
-  } = props;
-  const [isChecked, setIsChecked] = useState(defaultChecked);
+  } = props
+  const [isChecked, setIsChecked] = useState(defaultChecked)
 
   const handleOnChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
-      onChange && onChange(event);
-      setIsChecked((prevState) => !prevState);
+      onChange && onChange(event)
+      setIsChecked((prevState) => !prevState)
     },
     [setIsChecked, onChange]
-  );
+  )
 
   return (
-    <StyledContainer $isDisabled={disabled} {...restProps}>
+    <StyledContainer
+      $isDisabled={disabled}
+      {...restProps}
+    >
       <StyledInput
         type="checkbox"
         checked={isChecked}
@@ -38,10 +41,10 @@ function ServiceTile(props: ServiceTileProps) {
       />
       <span>{label}</span>
       <StyledOffer>
-        od <StyledPrice>{price} zł</StyledPrice> / msc
+        od <StyledPrice>{price} zł</StyledPrice>/ msc
       </StyledOffer>
     </StyledContainer>
-  );
+  )
 }
 
-export default ServiceTile;
+export default ServiceTile

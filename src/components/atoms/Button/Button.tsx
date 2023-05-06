@@ -1,5 +1,5 @@
-import { StyledContainer } from "@/components/atoms/Button/Button.styled";
-import type { ButtonProps } from "@/components/atoms/Button/Button.types";
+import { StyledContainer } from "@/components/atoms/Button/Button.styled"
+import type { ButtonProps } from "@/components/atoms/Button/Button.types"
 
 const ChevronIcon = () => (
   <svg
@@ -17,16 +17,19 @@ const ChevronIcon = () => (
       stroke-linejoin="round"
     />
   </svg>
-);
+)
 
 function Button(props: ButtonProps) {
-  const { children, variant = "primary", ...restProps } = props;
+  const { children, variant = "primary", ...restProps } = props
   return (
-    <StyledContainer $variant={variant} {...restProps}>
+    <StyledContainer
+      $variant={variant}
+      {...restProps}
+    >
       {variant === "secondary" && <ChevronIcon />}
       {children}
     </StyledContainer>
-  );
+  )
 }
 
-export default Button;
+export default Button
