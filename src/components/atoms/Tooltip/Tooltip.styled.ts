@@ -1,7 +1,7 @@
-import styled, { css } from "styled-components";
+import styled, { css } from "styled-components"
 
 export const StyledContainer = styled.div<{
-  $origin: "left" | "right";
+  $origin: "left" | "right"
 }>`
   display: inline-block;
   position: relative;
@@ -10,6 +10,7 @@ export const StyledContainer = styled.div<{
   color: ${({ theme }) => theme.color.black};
   line-height: ${({ theme }) => theme.lineHeight.md};
   margin-top: ${({ theme }) => theme.spacing("sm")};
+  user-select: none;
 
   &::before {
     content: "";
@@ -33,4 +34,4 @@ export const StyledContainer = styled.div<{
         transform: rotate(-90deg);
       `};
   }
-`;
+`
