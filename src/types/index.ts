@@ -1,13 +1,13 @@
-type PriceType = { [year: string]: number } | number;
+type PriceType = { [year: string]: number } | number
 
 export type PackageType = {
-  services: number[];
-  optionalServices?: number[];
-  price: PriceType;
-};
+  services: number[]
+  optionalServices?: number[]
+  price: PriceType
+}
 export type ServiceType = {
-  id: number;
-  dependsOn?: number[];
-  type: "internet";
-  price: PriceType;
-};
+  id: number
+  dependsOn?: number[]
+  type: string
+  price: PriceType
+}

@@ -1,8 +1,8 @@
-import { createGlobalStyle } from "styled-components";
-import designTokens from "../../design-tokens.json";
+import { createGlobalStyle } from "styled-components"
+import designTokens from "../../design-tokens.json"
 
 const { fontFamily, spacing, fontSize, fontWeight, lineHeight, ...theme } =
-  designTokens;
+  designTokens
 
 export const GlobalStyle = createGlobalStyle`
     *, *::before, *::after {
@@ -25,7 +25,11 @@ export const GlobalStyle = createGlobalStyle`
         font-family: ${fontFamily};
         font-size: 16px;
     }
-`;
+
+    fieldset {
+      border: none;
+    }
+`
 
 export default {
   ...theme,
@@ -56,4 +60,4 @@ export default {
   },
   spacing: (...values: (keyof typeof spacing)[]) =>
     values.map((value) => spacing[value]).join(" "),
-};
+}

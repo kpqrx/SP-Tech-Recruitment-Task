@@ -30,7 +30,7 @@ function ServiceTile(props: ServiceTileProps) {
   return (
     <StyledContainer
       $isDisabled={disabled}
-      {...restProps}
+      $isChecked={isChecked}
     >
       <StyledInput
         type="checkbox"
@@ -41,7 +41,7 @@ function ServiceTile(props: ServiceTileProps) {
       />
       <span>{label}</span>
       <StyledOffer>
-        od <StyledPrice>{price} zł</StyledPrice>/ msc
+        od <StyledPrice>{price} zł</StyledPrice> / msc
       </StyledOffer>
     </StyledContainer>
   )

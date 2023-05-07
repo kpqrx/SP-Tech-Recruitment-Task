@@ -7,6 +7,7 @@ export const StyledContainer = styled.button<{
   color: ${({ theme }) => theme.color.black};
   white-space: nowrap;
   cursor: pointer;
+  user-select: none;
 
   ${({ $variant }) =>
     $variant === "primary" &&

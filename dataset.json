@@ -25,7 +25,7 @@
     },
     {
       "id": 3,
-      "type": "4kDecoder",
+      "type": "decoder4K",
       "dependsOn": [1],
       "price": 29
     }

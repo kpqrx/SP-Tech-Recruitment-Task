@@ -1,7 +1,7 @@
-import type { InputHTMLAttributes } from "react";
+import type { InputHTMLAttributes } from "react"
 
 export interface ServiceTileProps
   extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  price: number;
+  label: string
+  price: number
 }

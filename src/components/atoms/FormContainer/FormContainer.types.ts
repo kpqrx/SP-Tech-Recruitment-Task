@@ -1,6 +1,6 @@
-import type { PropsWithChildren } from "react"
+import type { PropsWithChildren, ReactNode } from "react"
 
-type RenderFunctionPropType = () => JSX.Element | string
+type RenderFunctionPropType = (args?: unknown) => ReactNode
 
 export interface FormContainerProps extends PropsWithChildren {
   renderSteps: RenderFunctionPropType

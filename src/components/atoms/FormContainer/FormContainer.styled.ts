@@ -11,7 +11,7 @@ export const StyledStepsWrapper = styled.div`
   flex-flow: column;
   grid-area: 1 / 1 / 2 / 2;
   background-color: ${({ theme }) => theme.color.gray[400]};
-  padding: ${({ theme }) => theme.spacing("lg")} 0;
+  padding: ${({ theme }) => theme.spacing("md")} 0;
 `
 
 export const StyledFormWrapper = styled.form`

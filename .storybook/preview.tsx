@@ -1,7 +1,12 @@
-import type { Preview } from "@storybook/react";
-import React from "react";
-import { ThemeProvider } from "styled-components";
-import theme, { GlobalStyle } from "../src/theme";
+import type { Preview } from "@storybook/react"
+import React from "react"
+import { ThemeProvider } from "styled-components"
+import theme, { GlobalStyle } from "../src/theme"
+import { Provider as StoreProvider } from "react-redux"
+import { store } from "../src/store"
+import { initialize, mswDecorator } from "msw-storybook-addon"
+
+initialize({ onUnhandledRequest: "bypass" })
 
 const preview: Preview = {
   parameters: {
@@ -16,11 +21,14 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Story />
+        <StoreProvider store={store}>
+          <GlobalStyle />
+          <Story />
+        </StoreProvider>
       </ThemeProvider>
     ),
+    mswDecorator,
   ],
-};
+}
 
-export default preview;
+export default preview
