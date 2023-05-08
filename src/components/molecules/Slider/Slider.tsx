@@ -67,7 +67,7 @@ function Slider(props: SliderProps) {
       ref={containerRef}
       {...restProps}
     >
-      <StyledTrack $currentPosition={position} />
+      <StyledTrack style={{ "--current-position": `${position}px` }} />
       <StyledThumbWrapper
         onPointerDown={handlePointerDown}
         style={{ x: position }}

@@ -1,4 +1,4 @@
-import ConfiguratorForms from "@/components/molecules/ConfiguratorForms/ConfiguratorForms"
+import ConfiguratorViews from "@/components/molecules/ConfiguratorViews/ConfiguratorViews"
 import { useState } from "react"
 import styled from "styled-components"
 
@@ -31,7 +31,7 @@ function App() {
       </div>
       <p>Click on the Vite and React logos to learn more</p>
       <StyledButton onClick={handleClick}>Styled button</StyledButton>
-      <ConfiguratorForms.Services
+      <ConfiguratorViews.Services
         stepNumber={1}
         label="Asdf"
       />

@@ -1,6 +1,6 @@
 import Button from "@/components/atoms/Button"
-import FormContainer from "@/components/atoms/FormContainer"
-import ConfiguratorForms from "@/components/molecules/ConfiguratorForms/ConfiguratorForms"
+import ViewContainer from "@/components/atoms/ViewContainer"
+import ConfiguratorViews from "@/components/molecules/ConfiguratorViews/ConfiguratorViews"
 import { StyledStepLabel } from "@/components/organisms/OfferConfigurator/OfferConfigurator.styled"
 import {
   storePackages,
@@ -17,17 +17,17 @@ const configuratorViews = [
   {
     fullLabel: "Wybierz interesujące Cię usługi",
     shortLabel: "Wybór usług",
-    form: ConfiguratorForms.Services,
+    form: ConfiguratorViews.Services,
   },
   {
     fullLabel: "Wybierz czas trwania umowy",
     shortLabel: "Wybór czasu trwania umowy",
-    form: ConfiguratorForms.ContractPeriod,
+    form: ConfiguratorViews.ContractPeriod,
   },
   {
     fullLabel: "Plan abonamentowy przygotowany dla Ciebie",
     shortLabel: "Przedstawienie planu abonamentowego",
-    form: ConfiguratorForms.Services,
+    form: ConfiguratorViews.Services,
   },
 ]
 
@@ -88,7 +88,7 @@ function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
   )
 
   return (
-    <FormContainer
+    <ViewContainer
       renderSteps={() =>
         steps.map(({ label, number, status }, index) => (
           <StyledStepLabel
@@ -118,16 +118,16 @@ function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
       {...props}
     >
       {configuratorViews.map(
-        ({ form: Form, fullLabel }, stepIndex) =>
+        ({ form: View, fullLabel }, stepIndex) =>
           stepIndex === currentStep && (
-            <Form
+            <View
               key={stepIndex}
               label={fullLabel}
               stepNumber={stepIndex + 1}
             />
           )
       )}
-    </FormContainer>
+    </ViewContainer>
   )
 }
 

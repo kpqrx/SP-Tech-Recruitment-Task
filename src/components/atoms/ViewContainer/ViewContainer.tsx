@@ -2,12 +2,12 @@ import {
   StyledContainer,
   StyledButtonsWrapper,
   StyledContextualWrapper,
-  StyledFormWrapper,
+  StyledViewWrapper,
   StyledStepsWrapper,
-} from "@/components/atoms/FormContainer/FormContainer.styled"
-import type { FormContainerProps } from "@/components/atoms/FormContainer/FormContainer.types"
+} from "@/components/atoms/ViewContainer/ViewContainer.styled"
+import type { ViewContainerProps } from "@/components/atoms/ViewContainer/ViewContainer.types"
 
-function FormContainer(props: FormContainerProps) {
+function ViewContainer(props: ViewContainerProps) {
   const {
     children,
     renderSteps,
@@ -19,10 +19,10 @@ function FormContainer(props: FormContainerProps) {
     <StyledContainer {...restProps}>
       <StyledStepsWrapper>{renderSteps()}</StyledStepsWrapper>
       <StyledContextualWrapper>{renderContextual()}</StyledContextualWrapper>
-      <StyledFormWrapper>{children}</StyledFormWrapper>
+      <StyledViewWrapper>{children}</StyledViewWrapper>
       <StyledButtonsWrapper>{renderButtons()}</StyledButtonsWrapper>
     </StyledContainer>
   )
 }
 
-export default FormContainer
+export default ViewContainer

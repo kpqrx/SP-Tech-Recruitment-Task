@@ -14,7 +14,7 @@ export const StyledStepsWrapper = styled.div`
   padding: ${({ theme }) => theme.spacing("md")} 0;
 `
 
-export const StyledFormWrapper = styled.form`
+export const StyledViewWrapper = styled.form`
   grid-area: 1 / 2 / 2 / 3;
   min-height: 436px;
   background-color: ${({ theme }) => theme.color.gray[100]};

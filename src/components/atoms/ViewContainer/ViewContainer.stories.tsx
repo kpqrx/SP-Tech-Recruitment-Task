@@ -1,19 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import FormContainer from "./FormContainer"
+import ViewContainer from "./ViewContainer"
 
-const meta: Meta<typeof FormContainer> = {
-  title: "Components/Atoms/FormContainer",
-  component: FormContainer,
+const meta: Meta<typeof ViewContainer> = {
+  title: "Components/Atoms/ViewContainer",
+  component: ViewContainer,
   tags: ["autodocs"],
 }
 
 export default meta
-type Story = StoryObj<typeof FormContainer>
+type Story = StoryObj<typeof ViewContainer>
 
 export const Default: Story = {
   args: {
-    children: "Form container",
+    children: "View container",
     renderButtons: () => "Main button",
     renderContextual: () => "Contextual button",
     renderSteps: () => "Steps here",

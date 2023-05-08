@@ -8,8 +8,8 @@ import {
   StyledContractPeriodTypography,
   StyledContractPeriodTypographyWrapper,
   StyledContractPeriodSlider,
-} from "@/components/molecules/ConfiguratorForms/ConfiguratorForms.styled"
-import type { ConfiguratorFormsBaseProps } from "@/components/molecules/ConfiguratorForms/ConfiguratorForms.types"
+} from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.styled"
+import type { ConfiguratorViewsBaseProps } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.types"
 import type { RootState } from "@/store"
 import { useState } from "react"
 import { useSelector } from "react-redux"
@@ -21,7 +21,7 @@ const translations = {
   decoder4K: "DEKODER 4K",
 }
 
-function FormBase(props: ConfiguratorFormsBaseProps) {
+function ViewBase(props: ConfiguratorViewsBaseProps) {
   const { stepNumber, label, children, ...restProps } = props
   return (
     <StyledBaseFieldset {...restProps}>
@@ -33,13 +33,13 @@ function FormBase(props: ConfiguratorFormsBaseProps) {
   )
 }
 
-function Services(props: ConfiguratorFormsBaseProps) {
+function Services(props: ConfiguratorViewsBaseProps) {
   const services = useSelector(
     (state: RootState) => state.configurator.services
   )
 
   return (
-    <FormBase {...props}>
+    <ViewBase {...props}>
       <StyledServicesWrapper>
         {services.map(({ id, type, price }) => (
           <ServiceTile
@@ -55,25 +55,26 @@ function Services(props: ConfiguratorFormsBaseProps) {
           />
         ))}
       </StyledServicesWrapper>
-    </FormBase>
+    </ViewBase>
   )
 }
 
-function ContractPeriod(props: ConfiguratorFormsBaseProps) {
+function ContractPeriod(props: ConfiguratorViewsBaseProps) {
   const contractPeriod = useSelector(
     (state: RootState) => state.configurator.contractPeriod
   )
   const [contractEndYear, setContractEndYear] = useState(contractPeriod[0])
 
   return (
-    <FormBase {...props}>
+    <ViewBase {...props}>
       <StyledContractPeriodWrapper>
         <StyledContractPeriodTypographyWrapper>
           <StyledContractPeriodTypography>
             <StyledContractPeriodTypography.Title>
               Czas trwania
             </StyledContractPeriodTypography.Title>
-            2 lata
+            {contractEndYear - contractPeriod[0] + 1}{" "}
+            {contractEndYear - contractPeriod[0] === 0 ? "rok" : "lata"}
           </StyledContractPeriodTypography>
           <StyledContractPeriodTypography>
             <StyledContractPeriodTypography.Title>
@@ -94,13 +95,13 @@ function ContractPeriod(props: ConfiguratorFormsBaseProps) {
           onChange={setContractEndYear}
         />
       </StyledContractPeriodWrapper>
-    </FormBase>
+    </ViewBase>
   )
 }
 
-const ConfiguratorForms = {
+const ConfiguratorViews = {
   Services,
   ContractPeriod,
 }
 
-export default ConfiguratorForms
+export default ConfiguratorViews

@@ -6,7 +6,7 @@ export const StyledContainer = styled.div`
   position: relative;
 `
 
-export const StyledTrack = styled.div<{ $currentPosition: number }>`
+export const StyledTrack = styled.div`
   width: 100%;
   height: 8px;
   border-radius: 4px;
@@ -23,7 +23,7 @@ export const StyledTrack = styled.div<{ $currentPosition: number }>`
     width: 100%;
     height: 100%;
     transition: transform 0.1s ease;
-    transform: translateX(${({ $currentPosition }) => $currentPosition}px);
+    transform: translateX(var(--current-position));
     transform-origin: left;
     background-color: ${({ theme }) => theme.color.gray[500]};
   }
