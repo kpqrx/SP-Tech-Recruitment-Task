@@ -6,7 +6,7 @@ import {
 } from "@/components/atoms/ServiceTile/ServiceTile.styled"
 import type { ServiceTileProps } from "@/components/atoms/ServiceTile/ServiceTile.types"
 import type { ChangeEvent } from "react"
-import { useCallback, useState } from "react"
+import { useCallback } from "react"
 
 function ServiceTile(props: ServiceTileProps) {
   const {

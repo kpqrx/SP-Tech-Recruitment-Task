@@ -1,4 +1,4 @@
-import type { ChangeEventHandler, InputHTMLAttributes } from "react"
+import type { InputHTMLAttributes } from "react"
 
 export interface ServiceTileProps
   extends InputHTMLAttributes<HTMLInputElement> {

@@ -1,6 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
-// TODO: fix typings, styling, UX
 import {
   StyledContainer,
   StyledThumb,
@@ -11,20 +8,13 @@ import {
 } from "@/components/molecules/Slider/Slider.styled"
 import type { SliderProps } from "@/components/molecules/Slider/Slider.types"
 import { useMotionValue } from "framer-motion"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef } from "react"
 
 function Slider(props: SliderProps) {
-  const {
-    values,
-    value,
-    minValue = 0,
-    maxValue,
-    onChange,
-    ...restProps
-  } = props
+  const { values, value, minValue = 0, onChange, ...restProps } = props
   const containerRef = useRef<HTMLDivElement>(null)
 
-  let newValue, stepWidth
+  let newValue: number, stepWidth: number
 
   const position = useMotionValue(0)
 
@@ -38,13 +28,8 @@ function Slider(props: SliderProps) {
     }
   })
 
-  const handlePointerDown = useCallback((event: PointerEvent) => {
-    const { ownerDocument } = event.currentTarget
-    if (!ownerDocument) {
-      return
-    }
-
-    function handlePointerMove(event: Event) {
+  const handlePointerDown = useCallback(() => {
+    function handlePointerMove(event: PointerEvent) {
       if (!containerRef.current) {
         return
       }
@@ -73,13 +58,13 @@ function Slider(props: SliderProps) {
       position.set(shouldSnap ? newValue * stepWidth : newPosition)
     }
 
-    function handlePointerUp(event: Event) {
+    function handlePointerUp() {
       position.set(newValue * stepWidth)
-      ownerDocument.removeEventListener("pointermove", handlePointerMove)
+      document.removeEventListener("pointermove", handlePointerMove)
     }
 
-    ownerDocument.addEventListener("pointermove", handlePointerMove)
-    ownerDocument.addEventListener("pointerup", handlePointerUp)
+    document.addEventListener("pointermove", handlePointerMove)
+    document.addEventListener("pointerup", handlePointerUp)
   }, [])
 
   return (
