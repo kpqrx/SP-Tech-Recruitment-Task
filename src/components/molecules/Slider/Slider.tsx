@@ -7,15 +7,36 @@ import {
   StyledThumbWrapper,
   StyledTooltip,
   StyledTrack,
+  StyledProgress,
 } from "@/components/molecules/Slider/Slider.styled"
 import type { SliderProps } from "@/components/molecules/Slider/Slider.types"
-import { useCallback, useRef, useState } from "react"
+import { useMotionValue } from "framer-motion"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 function Slider(props: SliderProps) {
-  const { steps, value = steps[0], onChange, ...restProps } = props
+  const {
+    values,
+    value,
+    minValue = 0,
+    maxValue,
+    onChange,
+    ...restProps
+  } = props
   const containerRef = useRef<HTMLDivElement>(null)
-  const [position, setPosition] = useState(0)
-  const [isOnStep, setIsOnStep] = useState(true)
+
+  let newValue, stepWidth
+
+  const position = useMotionValue(0)
+
+  useEffect(() => {
+    if (containerRef.current) {
+      console.log({ x: containerRef.current.clientWidth, value, minValue })
+      position.set(
+        (containerRef.current.clientWidth / (values.length - 1)) *
+          (value - minValue)
+      )
+    }
+  })
 
   const handlePointerDown = useCallback((event: PointerEvent) => {
     const { ownerDocument } = event.currentTarget
@@ -28,13 +49,13 @@ function Slider(props: SliderProps) {
         return
       }
       const { clientX, movementX } = event
-      const stepsCount = steps.length - 1
+      const stepsCount = values.length - 1
       const { width: containerWidth, left: containerLeft } =
         containerRef.current.getBoundingClientRect()
       const isMovingRight = Math.min(Math.max(movementX, -4), 4) > 0
 
-      const stepWidth = containerWidth / stepsCount
-      const index = Math.min(
+      stepWidth = containerWidth / stepsCount
+      newValue = Math.min(
         Math.max(Math.round((clientX - containerLeft) / stepWidth), 0),
         stepsCount
       )
@@ -43,18 +64,17 @@ function Slider(props: SliderProps) {
         Math.max(clientX - containerLeft, 0),
         containerWidth
       )
+      const currentProgress = stepWidth * Math.floor(newPosition / stepWidth)
+      const shouldSnap = isMovingRight
+        ? newPosition >= currentProgress + stepWidth * 0.85
+        : newPosition <= currentProgress + stepWidth * 0.15
 
-      onChange(steps[index])
-      setPosition(() => {
-        const currentProgress = stepWidth * Math.floor(newPosition / stepWidth)
-        const shouldSnap = isMovingRight
-          ? newPosition >= currentProgress + stepWidth * 0.5
-          : newPosition <= currentProgress + stepWidth * 0.5
-        return shouldSnap ? index * stepWidth : newPosition
-      })
+      onChange(newValue + minValue)
+      position.set(shouldSnap ? newValue * stepWidth : newPosition)
     }
 
     function handlePointerUp(event: Event) {
+      position.set(newValue * stepWidth)
       ownerDocument.removeEventListener("pointermove", handlePointerMove)
     }
 
@@ -67,22 +87,24 @@ function Slider(props: SliderProps) {
       ref={containerRef}
       {...restProps}
     >
-      <StyledTrack style={{ "--current-position": `${position}px` }} />
+      <StyledTrack>
+        <StyledProgress style={{ x: position }} />
+      </StyledTrack>
       <StyledThumbWrapper
         onPointerDown={handlePointerDown}
         style={{ x: position }}
       >
         <StyledThumb />
-        {position > 0 && (
+        {value > minValue && (
           <StyledTooltip
             label="Do"
             origin="right"
           >
-            {value}
+            {values[value - minValue]}
           </StyledTooltip>
         )}
       </StyledThumbWrapper>
-      <StyledTooltip label="Od">{steps[0]}</StyledTooltip>
+      <StyledTooltip label="Od">{values[0]}</StyledTooltip>
     </StyledContainer>
   )
 }

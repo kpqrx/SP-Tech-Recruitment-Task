@@ -11,8 +11,12 @@ import {
 } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.styled"
 import type { ConfiguratorViewsBaseProps } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.types"
 import type { RootState } from "@/store"
-import { useState } from "react"
-import { useSelector } from "react-redux"
+import {
+  updateSelectedPeriod,
+  updateSelectedServices,
+} from "@/store/slices/configuratorSlice"
+import { useCallback, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 const translations = {
   internet: "INTERNET",
@@ -38,10 +42,32 @@ function Services(props: ConfiguratorViewsBaseProps) {
     (state: RootState) => state.configurator.services
   )
 
+  const selectedServices = useSelector(
+    (state: RootState) => state.configurator.selectedServices
+  )
+  const dispatch = useDispatch()
+
+  const handleServiceChange = useCallback(
+    (id: number) => {
+      const dependenciesToDisable = services
+        .filter(
+          ({ dependsOn, id: serviceId }) =>
+            dependsOn?.includes(id) && selectedServices.includes(serviceId)
+        )
+        .map(({ id: serviceId }) => serviceId)
+
+      dispatch(updateSelectedServices(id))
+      dependenciesToDisable.forEach((serviceId) =>
+        dispatch(updateSelectedServices(serviceId))
+      )
+    },
+    [dispatch, services, selectedServices]
+  )
+
   return (
     <ViewBase {...props}>
       <StyledServicesWrapper>
-        {services.map(({ id, type, price }) => (
+        {services.map(({ id, type, price, dependsOn }) => (
           <ServiceTile
             key={id}
             label={translations[type as keyof typeof translations]}
@@ -52,6 +78,14 @@ function Services(props: ConfiguratorViewsBaseProps) {
             }
             name="service"
             id={`service-${type}-${id}`}
+            onChange={() => handleServiceChange(id)}
+            checked={selectedServices.includes(id)}
+            disabled={
+              dependsOn &&
+              !selectedServices.some((serviceId) =>
+                dependsOn?.includes(serviceId)
+              )
+            }
           />
         ))}
       </StyledServicesWrapper>
@@ -63,7 +97,19 @@ function ContractPeriod(props: ConfiguratorViewsBaseProps) {
   const contractPeriod = useSelector(
     (state: RootState) => state.configurator.contractPeriod
   )
-  const [contractEndYear, setContractEndYear] = useState(contractPeriod[0])
+  const selectedPeriod = useSelector(
+    (state: RootState) => state.configurator.selectedPeriod
+  )
+  const dispatch = useDispatch()
+  const [period, setPeriod] = useState(selectedPeriod)
+
+  const handlePeriodChange = useCallback(
+    (newPeriod: number) => {
+      setPeriod(newPeriod)
+      dispatch(updateSelectedPeriod(newPeriod))
+    },
+    [dispatch, setPeriod]
+  )
 
   return (
     <ViewBase {...props}>
@@ -73,8 +119,7 @@ function ContractPeriod(props: ConfiguratorViewsBaseProps) {
             <StyledContractPeriodTypography.Title>
               Czas trwania
             </StyledContractPeriodTypography.Title>
-            {contractEndYear - contractPeriod[0] + 1}{" "}
-            {contractEndYear - contractPeriod[0] === 0 ? "rok" : "lata"}
+            {period} {period === 1 ? "rok" : "lata"}
           </StyledContractPeriodTypography>
           <StyledContractPeriodTypography>
             <StyledContractPeriodTypography.Title>
@@ -86,13 +131,14 @@ function ContractPeriod(props: ConfiguratorViewsBaseProps) {
             <StyledContractPeriodTypography.Title>
               Koniec okresu trwania umowy
             </StyledContractPeriodTypography.Title>
-            {contractEndYear}
+            {contractPeriod[period - 1]}
           </StyledContractPeriodTypography>
         </StyledContractPeriodTypographyWrapper>
         <StyledContractPeriodSlider
-          steps={contractPeriod}
-          value={contractEndYear}
-          onChange={setContractEndYear}
+          values={contractPeriod}
+          minValue={1}
+          value={period}
+          onChange={handlePeriodChange}
         />
       </StyledContractPeriodWrapper>
     </ViewBase>

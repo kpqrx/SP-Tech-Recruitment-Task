@@ -35,7 +35,7 @@ export const StyledContractPeriodTypography = Object.assign(
 )
 
 export const StyledContractPeriodSlider = styled(Slider)`
-  width: 75%;
+  width: 65%;
 `
 
 export const StyledBaseFieldset = styled.fieldset`

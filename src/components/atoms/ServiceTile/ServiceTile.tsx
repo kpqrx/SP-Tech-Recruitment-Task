@@ -12,29 +12,27 @@ function ServiceTile(props: ServiceTileProps) {
   const {
     label,
     price,
-    defaultChecked = false,
+    checked = false,
     disabled = false,
     onChange,
     ...restProps
   } = props
-  const [isChecked, setIsChecked] = useState(defaultChecked)
 
   const handleOnChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       onChange && onChange(event)
-      setIsChecked((prevState) => !prevState)
     },
-    [setIsChecked, onChange]
+    [onChange]
   )
 
   return (
     <StyledContainer
       $isDisabled={disabled}
-      $isChecked={isChecked}
+      $isChecked={checked}
     >
       <StyledInput
         type="checkbox"
-        checked={isChecked}
+        checked={checked}
         onChange={handleOnChange}
         disabled={disabled}
         {...restProps}

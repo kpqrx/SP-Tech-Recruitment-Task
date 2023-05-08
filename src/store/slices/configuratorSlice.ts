@@ -6,12 +6,16 @@ export interface ConfiguratorState {
   services: ServiceType[]
   packages: PackageType[]
   contractPeriod: number[]
+  selectedServices: number[]
+  selectedPeriod: number
 }
 
 const initialState: ConfiguratorState = {
   services: [],
   packages: [],
   contractPeriod: [],
+  selectedServices: [],
+  selectedPeriod: 1,
 }
 
 export const configuratorSlice = createSlice({
@@ -27,10 +31,29 @@ export const configuratorSlice = createSlice({
     storeContractPeriod: (state, action: PayloadAction<number[]>) => {
       state.contractPeriod = action.payload
     },
+    updateSelectedServices: (state, action: PayloadAction<number>) => {
+      const isAleadyStored =
+        state.selectedServices.findIndex(
+          (serviceId) => serviceId === action.payload
+        ) !== -1
+      state.selectedServices = isAleadyStored
+        ? state.selectedServices.filter(
+            (serviceId) => serviceId !== action.payload
+          )
+        : [...state.selectedServices, action.payload]
+    },
+    updateSelectedPeriod: (state, action: PayloadAction<number>) => {
+      state.selectedPeriod = action.payload
+    },
   },
 })
 
-export const { storeServices, storePackages, storeContractPeriod } =
-  configuratorSlice.actions
+export const {
+  storeServices,
+  storePackages,
+  storeContractPeriod,
+  updateSelectedPeriod,
+  updateSelectedServices,
+} = configuratorSlice.actions
 
 export default configuratorSlice.reducer

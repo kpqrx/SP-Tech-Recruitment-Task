@@ -14,19 +14,17 @@ export const StyledTrack = styled.div`
   position: relative;
   z-index: 0;
   overflow: hidden;
+`
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.1s ease;
-    transform: translateX(var(--current-position));
-    transform-origin: left;
-    background-color: ${({ theme }) => theme.color.gray[500]};
-  }
+export const StyledProgress = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.1s ease;
+  transform-origin: left;
+  background-color: ${({ theme }) => theme.color.gray[500]};
 `
 
 export const StyledThumbWrapper = styled(motion.div)`
