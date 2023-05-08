@@ -5,11 +5,13 @@ import type { PackageType, ServiceType } from "@/types"
 export interface ConfiguratorState {
   services: ServiceType[]
   packages: PackageType[]
+  contractPeriod: number[]
 }
 
 const initialState: ConfiguratorState = {
   services: [],
   packages: [],
+  contractPeriod: [],
 }
 
 export const configuratorSlice = createSlice({
@@ -22,9 +24,13 @@ export const configuratorSlice = createSlice({
     storePackages: (state, action: PayloadAction<PackageType[]>) => {
       state.packages = action.payload
     },
+    storeContractPeriod: (state, action: PayloadAction<number[]>) => {
+      state.contractPeriod = action.payload
+    },
   },
 })
 
-export const { storeServices, storePackages } = configuratorSlice.actions
+export const { storeServices, storePackages, storeContractPeriod } =
+  configuratorSlice.actions
 
 export default configuratorSlice.reducer

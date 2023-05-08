@@ -2,7 +2,11 @@ import Button from "@/components/atoms/Button"
 import FormContainer from "@/components/atoms/FormContainer"
 import ConfiguratorForms from "@/components/molecules/ConfiguratorForms/ConfiguratorForms"
 import { StyledStepLabel } from "@/components/organisms/OfferConfigurator/OfferConfigurator.styled"
-import { storePackages, storeServices } from "@/store/slices/configuratorSlice"
+import {
+  storePackages,
+  storeServices,
+  storeContractPeriod,
+} from "@/store/slices/configuratorSlice"
 import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "@/store"
@@ -18,7 +22,7 @@ const configuratorViews = [
   {
     fullLabel: "Wybierz czas trwania umowy",
     shortLabel: "Wybór czasu trwania umowy",
-    form: ConfiguratorForms.Services,
+    form: ConfiguratorForms.ContractPeriod,
   },
   {
     fullLabel: "Plan abonamentowy przygotowany dla Ciebie",
@@ -42,13 +46,16 @@ function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
     const handleFetch = async () => {
       const servicesResponse = await fetch("/api/services")
       const packagesResponse = await fetch("/api/packages")
-      const [services, packages] = await Promise.all([
+      const contractPeriodResponse = await fetch("/api/contract-period")
+      const [services, packages, contractPeriod] = await Promise.all([
         await servicesResponse.json(),
         await packagesResponse.json(),
+        await contractPeriodResponse.json(),
       ])
 
       dispatch(storeServices(services))
       dispatch(storePackages(packages))
+      dispatch(storeContractPeriod(contractPeriod))
     }
 
     handleFetch()

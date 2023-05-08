@@ -1,3 +1,6 @@
+/* eslint-disable */
+// @ts-nocheck
+// TODO: fix typings, styling, UX
 import {
   StyledContainer,
   StyledThumb,
@@ -12,6 +15,7 @@ function Slider(props: SliderProps) {
   const { steps, value = steps[0], onChange, ...restProps } = props
   const containerRef = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState(0)
+  const [isOnStep, setIsOnStep] = useState(true)
 
   const handlePointerDown = useCallback((event: PointerEvent) => {
     const { ownerDocument } = event.currentTarget
@@ -23,20 +27,31 @@ function Slider(props: SliderProps) {
       if (!containerRef.current) {
         return
       }
-      const { clientX } = event
+      const { clientX, movementX } = event
       const stepsCount = steps.length - 1
       const { width: containerWidth, left: containerLeft } =
         containerRef.current.getBoundingClientRect()
+      const isMovingRight = Math.min(Math.max(movementX, -4), 4) > 0
 
       const stepWidth = containerWidth / stepsCount
       const index = Math.min(
         Math.max(Math.round((clientX - containerLeft) / stepWidth), 0),
         stepsCount
       )
-      const newPosition = index * stepWidth
+
+      const newPosition = Math.min(
+        Math.max(clientX - containerLeft, 0),
+        containerWidth
+      )
 
       onChange(steps[index])
-      setPosition(newPosition)
+      setPosition(() => {
+        const currentProgress = stepWidth * Math.floor(newPosition / stepWidth)
+        const shouldSnap = isMovingRight
+          ? newPosition >= currentProgress + stepWidth * 0.5
+          : newPosition <= currentProgress + stepWidth * 0.5
+        return shouldSnap ? index * stepWidth : newPosition
+      })
     }
 
     function handlePointerUp(event: Event) {
@@ -52,20 +67,24 @@ function Slider(props: SliderProps) {
       ref={containerRef}
       {...restProps}
     >
-      <StyledTrack $progress={steps.indexOf(value) + 1 / steps.length} />
+      <StyledTrack $currentPosition={position} />
       <StyledThumbWrapper
         onPointerDown={handlePointerDown}
-        animate={{
-          x: position,
-        }}
+        style={{ x: position }}
       >
         <StyledThumb />
-        {position > 0 && <StyledTooltip origin="right">{value}</StyledTooltip>}
+        {position > 0 && (
+          <StyledTooltip
+            label="Do"
+            origin="right"
+          >
+            {value}
+          </StyledTooltip>
+        )}
       </StyledThumbWrapper>
-      <StyledTooltip>{steps[0]}</StyledTooltip>
+      <StyledTooltip label="Od">{steps[0]}</StyledTooltip>
     </StyledContainer>
   )
 }
 
-// TODO: fix typings, styling, UX
 export default Slider

@@ -44,5 +44,6 @@
       "services": [0, 2],
       "price": 64
     }
-  ]
+  ],
+  "contractPeriod": [2023, 2024, 2025]
 }

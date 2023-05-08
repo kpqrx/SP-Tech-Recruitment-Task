@@ -26,6 +26,16 @@ export const Services: Story = {
   },
 }
 
+export const ContractPeriod: Story = {
+  render: (props: ConfiguratorFormsBaseProps) => (
+    <ConfiguratorForms.ContractPeriod {...props} />
+  ),
+  args: {
+    label: "Configurator ContractPeriod Form",
+    stepNumber: 1,
+  },
+}
+
 Services.parameters = {
   msw: {
     handlers,

@@ -1,5 +1,6 @@
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react"
 
 export interface TooltipProps extends PropsWithChildren {
-  origin?: "left" | "right";
+  origin?: "left" | "right"
+  label?: string
 }

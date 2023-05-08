@@ -6,7 +6,7 @@ export const StyledContainer = styled.div<{
   display: inline-block;
   position: relative;
   padding: ${({ theme }) => theme.spacing("xs", "md")};
-  background-color: ${({ theme }) => theme.color.gray[100]};
+  background-color: ${({ theme }) => theme.color.gray[300]};
   color: ${({ theme }) => theme.color.black};
   line-height: ${({ theme }) => theme.lineHeight.md};
   margin-top: ${({ theme }) => theme.spacing("sm")};
@@ -34,4 +34,11 @@ export const StyledContainer = styled.div<{
         transform: rotate(-90deg);
       `};
   }
+`
+
+export const StyledLabel = styled.span`
+  display: block;
+  color: ${({ theme }) => theme.color.gray[500]};
+  margin-bottom: ${({ theme }) => theme.spacing("xxs")};
+  ${({ theme }) => theme.typography.xs};
 `

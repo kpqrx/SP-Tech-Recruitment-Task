@@ -1,5 +1,5 @@
 export interface SliderProps {
   steps: number[]
-  value?: number
+  value: number
   onChange: (x: number) => void
 }

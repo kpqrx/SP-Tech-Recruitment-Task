@@ -23,7 +23,7 @@
   - [x] przygotowanie projektu: instalacja bibliotek i konfiguracja
   - [x] przygotowanie zestawu danych
 - 6 maja:
-  - [ ] przygotowanie komponentów
+  - [x] przygotowanie komponentów
 - 7 - 10 maja
   - [ ] rozwój aplikacji
 - 11 maja:

@@ -6,7 +6,7 @@ export const StyledContainer = styled.div`
   position: relative;
 `
 
-export const StyledTrack = styled.div<{ $progress: number }>`
+export const StyledTrack = styled.div<{ $currentPosition: number }>`
   width: 100%;
   height: 8px;
   border-radius: 4px;
@@ -16,12 +16,14 @@ export const StyledTrack = styled.div<{ $progress: number }>`
   overflow: hidden;
 
   &::before {
-    content: "${({ $progress }) => $progress}";
+    content: "";
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: -100%;
     width: 100%;
     height: 100%;
-    transform: scaleX(calc(100% * ${({ $progress }) => $progress}));
+    transition: transform 0.1s ease;
+    transform: translateX(${({ $currentPosition }) => $currentPosition}px);
     transform-origin: left;
     background-color: ${({ theme }) => theme.color.gray[500]};
   }
@@ -34,6 +36,7 @@ export const StyledThumbWrapper = styled(motion.div)`
   gap: 8px;
   left: -12px;
   top: -8px;
+  transition: transform 0.125s ease;
 `
 
 export const StyledTooltip = styled(Tooltip)`
