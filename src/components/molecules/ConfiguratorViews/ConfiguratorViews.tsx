@@ -1,5 +1,7 @@
+import OfferTable from "@/components/atoms/OfferTable/OfferTable"
 import ServiceTile from "@/components/atoms/ServiceTile"
 import StepLabel from "@/components/atoms/StepLabel"
+import ChipListing from "@/components/molecules/ChipListing/ChipListing"
 import {
   StyledBaseFieldset,
   StyledBaseLegend,
@@ -8,6 +10,9 @@ import {
   StyledContractPeriodTypography,
   StyledContractPeriodTypographyWrapper,
   StyledContractPeriodSlider,
+  StyledOfferChipListingsWrapper,
+  StyledOfferTable,
+  StyledOfferWrapper,
 } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.styled"
 import type { ConfiguratorViewsBaseProps } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.types"
 import type { RootState } from "@/store"
@@ -145,9 +150,60 @@ function ContractPeriod(props: ConfiguratorViewsBaseProps) {
   )
 }
 
+function Offer(props: ConfiguratorViewsBaseProps) {
+  const selectedServices = useSelector(
+    (state: RootState) => state.configurator.selectedServices
+  )
+  const services = useSelector(
+    (state: RootState) => state.configurator.services
+  )
+  const selectedPeriod = useSelector(
+    (state: RootState) => state.configurator.selectedPeriod
+  )
+  const packages = useSelector(
+    (state: RootState) => state.configurator.packages
+  )
+
+  const offerServices = services.filter(({ id }) =>
+    selectedServices.includes(id)
+  )
+
+  const offerPackages = packages.filter(({ services, optionalServices = [] }) =>
+    offerServices.some(({ id }) =>
+      [...services, ...optionalServices].includes(id)
+    )
+  )
+
+  const serviceChipValues = services
+    .filter(({ id }) => selectedServices.includes(id))
+    .map(({ type }) => translations[type as keyof typeof translations])
+
+  const periodChipValue = `${selectedPeriod} ${
+    selectedPeriod === 1 ? "rok" : "lata"
+  }`
+
+  return (
+    <ViewBase {...props}>
+      <StyledOfferWrapper>
+        <StyledOfferChipListingsWrapper>
+          <ChipListing
+            label="Czas trwania umowy:"
+            chips={[periodChipValue]}
+          />
+          <ChipListing
+            label="Usługi:"
+            chips={serviceChipValues}
+          />
+        </StyledOfferChipListingsWrapper>
+      </StyledOfferWrapper>
+    </ViewBase>
+  )
+}
+
 const ConfiguratorViews = {
   Services,
   ContractPeriod,
+  Offer,
 }
 
 export default ConfiguratorViews

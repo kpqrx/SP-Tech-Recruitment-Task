@@ -16,7 +16,7 @@ export const StyledContractPeriodWrapper = styled.div`
 export const StyledContractPeriodTypographyWrapper = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing("xl")};
-  padding: ${({ theme }) => theme.spacing("lg")} 0;
+  padding: ${({ theme }) => theme.spacing("md")} 0;
 `
 
 const StyledContractPeriodTypographyBase = styled.div`
@@ -38,10 +38,27 @@ export const StyledContractPeriodSlider = styled(Slider)`
   width: 65%;
 `
 
+export const StyledOfferWrapper = styled.div`
+  display: flex;
+  flex-flow: column;
+  gap: ${({ theme }) => theme.spacing("lg")};
+`
+
+export const StyledOfferChipListingsWrapper = styled.div`
+  display: flex;
+  flex-flow: column;
+  gap: ${({ theme }) => theme.spacing("sm")};
+`
+
+export const StyledOfferTable = styled.table`
+  display: flex;
+  flex-flow: column;
+`
+
 export const StyledBaseFieldset = styled.fieldset`
   user-select: none;
 `
 
 export const StyledBaseLegend = styled.legend`
-  margin-bottom: ${({ theme }) => theme.spacing("md")};
+  margin-bottom: ${({ theme }) => theme.spacing("lg")};
 `

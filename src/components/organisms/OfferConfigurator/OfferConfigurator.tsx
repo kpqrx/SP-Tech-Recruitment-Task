@@ -27,7 +27,7 @@ const configuratorViews = [
   {
     fullLabel: "Plan abonamentowy przygotowany dla Ciebie",
     shortLabel: "Przedstawienie planu abonamentowego",
-    form: ConfiguratorViews.Services,
+    form: ConfiguratorViews.Offer,
   },
 ]
 
