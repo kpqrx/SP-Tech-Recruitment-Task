@@ -50,11 +50,6 @@ export const StyledOfferChipListingsWrapper = styled.div`
   gap: ${({ theme }) => theme.spacing("sm")};
 `
 
-export const StyledOfferTable = styled.table`
-  display: flex;
-  flex-flow: column;
-`
-
 export const StyledBaseFieldset = styled.fieldset`
   user-select: none;
 `

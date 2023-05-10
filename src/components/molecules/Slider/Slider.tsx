@@ -20,7 +20,6 @@ function Slider(props: SliderProps) {
 
   useEffect(() => {
     if (containerRef.current) {
-      console.log({ x: containerRef.current.clientWidth, value, minValue })
       position.set(
         (containerRef.current.clientWidth / (values.length - 1)) *
           (value - minValue)

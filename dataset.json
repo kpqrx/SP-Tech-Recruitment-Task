@@ -32,8 +32,13 @@
   ],
   "packages": [
     {
-      "services": [0, 1],
-      "optionalServices": [3],
+      "services": [0, 1, 3],
+      "exceptions": [
+        {
+          "id": 3,
+          "price": 0
+        }
+      ],
       "price": {
         "2023": 79,
         "2024": 89,

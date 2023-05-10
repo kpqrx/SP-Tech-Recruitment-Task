@@ -1,7 +1,7 @@
-import OfferTable from "@/components/atoms/OfferTable/OfferTable"
+import OfferTable from "@/components/atoms/OfferTable"
 import ServiceTile from "@/components/atoms/ServiceTile"
 import StepLabel from "@/components/atoms/StepLabel"
-import ChipListing from "@/components/molecules/ChipListing/ChipListing"
+import ChipListing from "@/components/molecules/ChipListing"
 import {
   StyledBaseFieldset,
   StyledBaseLegend,
@@ -11,10 +11,14 @@ import {
   StyledContractPeriodTypographyWrapper,
   StyledContractPeriodSlider,
   StyledOfferChipListingsWrapper,
-  StyledOfferTable,
   StyledOfferWrapper,
 } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.styled"
 import type { ConfiguratorViewsBaseProps } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.types"
+import {
+  getMostAffordableOffer,
+  getPackagesOffers,
+  getServicesOffer,
+} from "@/helpers"
 import type { RootState } from "@/store"
 import {
   updateSelectedPeriod,
@@ -157,6 +161,9 @@ function Offer(props: ConfiguratorViewsBaseProps) {
   const services = useSelector(
     (state: RootState) => state.configurator.services
   )
+  const contractPeriod = useSelector(
+    (state: RootState) => state.configurator.contractPeriod
+  )
   const selectedPeriod = useSelector(
     (state: RootState) => state.configurator.selectedPeriod
   )
@@ -164,15 +171,15 @@ function Offer(props: ConfiguratorViewsBaseProps) {
     (state: RootState) => state.configurator.packages
   )
 
-  const offerServices = services.filter(({ id }) =>
-    selectedServices.includes(id)
-  )
+  const periodInYears = contractPeriod.slice(0, selectedPeriod)
 
-  const offerPackages = packages.filter(({ services, optionalServices = [] }) =>
-    offerServices.some(({ id }) =>
-      [...services, ...optionalServices].includes(id)
-    )
-  )
+  const offers = [
+    getServicesOffer(services, selectedServices, periodInYears),
+    ...getPackagesOffers(packages, services, selectedServices, periodInYears),
+  ]
+
+  const offer = getMostAffordableOffer(offers)
+  console.log({ offers, offer })
 
   const serviceChipValues = services
     .filter(({ id }) => selectedServices.includes(id))
@@ -195,6 +202,14 @@ function Offer(props: ConfiguratorViewsBaseProps) {
             chips={serviceChipValues}
           />
         </StyledOfferChipListingsWrapper>
+        {/* <OfferTable
+          periods={periodInYears}
+          monthlyFees={[124, 125, 123]}
+          packages={offer.map(({ type, price }) => ({
+            label: [type].flat().join(" + "),
+            price: Object.values(price),
+          }))}
+        /> */}
       </StyledOfferWrapper>
     </ViewBase>
   )

@@ -14,10 +14,7 @@ function OfferTable(props: OfferTableProps) {
     packages.length,
     periods.length,
     monthlyFees.length,
-    packages.some(({ price }) => {
-      console.log({ pri: price.length, per: periods.length })
-      return price.length !== periods.length
-    })
+    packages.some(({ price }) => price.length !== periods.length)
   )
   if (
     packages.some(({ price }) => price.length !== periods.length) ||
