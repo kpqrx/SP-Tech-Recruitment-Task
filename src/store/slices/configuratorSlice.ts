@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
-import type { PackageType, ServiceType } from "@/types"
+import type { BundleType, ServiceType } from "@/types"
 
 export interface ConfiguratorState {
   services: ServiceType[]
-  packages: PackageType[]
+  bundles: BundleType[]
   contractPeriod: number[]
   selectedServices: number[]
   selectedPeriod: number
@@ -12,7 +12,7 @@ export interface ConfiguratorState {
 
 const initialState: ConfiguratorState = {
   services: [],
-  packages: [],
+  bundles: [],
   contractPeriod: [],
   selectedServices: [],
   selectedPeriod: 1,
@@ -25,8 +25,8 @@ export const configuratorSlice = createSlice({
     storeServices: (state, action: PayloadAction<ServiceType[]>) => {
       state.services = action.payload
     },
-    storePackages: (state, action: PayloadAction<PackageType[]>) => {
-      state.packages = action.payload
+    storeBundles: (state, action: PayloadAction<BundleType[]>) => {
+      state.bundles = action.payload
     },
     storeContractPeriod: (state, action: PayloadAction<number[]>) => {
       state.contractPeriod = action.payload
@@ -50,7 +50,7 @@ export const configuratorSlice = createSlice({
 
 export const {
   storeServices,
-  storePackages,
+  storeBundles,
   storeContractPeriod,
   updateSelectedPeriod,
   updateSelectedServices,

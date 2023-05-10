@@ -3,7 +3,7 @@ import ViewContainer from "@/components/atoms/ViewContainer"
 import ConfiguratorViews from "@/components/molecules/ConfiguratorViews/ConfiguratorViews"
 import { StyledStepLabel } from "@/components/organisms/OfferConfigurator/OfferConfigurator.styled"
 import {
-  storePackages,
+  storeBundles,
   storeServices,
   storeContractPeriod,
 } from "@/store/slices/configuratorSlice"
@@ -34,27 +34,27 @@ const configuratorViews = [
 function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
   const [currentStep, setCurrentStep] = useState(0)
   const dispatch = useDispatch()
-  const { services, packages } = useSelector(
+  const { services, bundles } = useSelector(
     (state: RootState) => state.configurator
   )
 
   useEffect(() => {
-    if (services.length > 0 && packages.length > 0) {
+    if (services.length > 0 && bundles.length > 0) {
       return
     }
 
     const handleFetch = async () => {
       const servicesResponse = await fetch("/api/services")
-      const packagesResponse = await fetch("/api/packages")
+      const bundlesResponse = await fetch("/api/bundles")
       const contractPeriodResponse = await fetch("/api/contract-period")
-      const [services, packages, contractPeriod] = await Promise.all([
+      const [services, bundles, contractPeriod] = await Promise.all([
         await servicesResponse.json(),
-        await packagesResponse.json(),
+        await bundlesResponse.json(),
         await contractPeriodResponse.json(),
       ])
 
       dispatch(storeServices(services))
-      dispatch(storePackages(packages))
+      dispatch(storeBundles(bundles))
       dispatch(storeContractPeriod(contractPeriod))
     }
 

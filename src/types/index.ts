@@ -1,6 +1,6 @@
 export type PriceType = { [year: number]: number } | number
 
-export type PackageType = {
+export type BundleType = {
   services: number[]
   exceptions?: {
     id: number

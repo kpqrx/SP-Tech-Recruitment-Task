@@ -14,11 +14,7 @@ import {
   StyledOfferWrapper,
 } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.styled"
 import type { ConfiguratorViewsBaseProps } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.types"
-import {
-  getMostAffordableOffer,
-  getPackagesOffers,
-  getServicesOffer,
-} from "@/helpers"
+import { getOffer } from "@/helpers"
 import type { RootState } from "@/store"
 import {
   updateSelectedPeriod,
@@ -155,31 +151,19 @@ function ContractPeriod(props: ConfiguratorViewsBaseProps) {
 }
 
 function Offer(props: ConfiguratorViewsBaseProps) {
-  const selectedServices = useSelector(
-    (state: RootState) => state.configurator.selectedServices
-  )
-  const services = useSelector(
-    (state: RootState) => state.configurator.services
-  )
-  const contractPeriod = useSelector(
-    (state: RootState) => state.configurator.contractPeriod
-  )
-  const selectedPeriod = useSelector(
-    (state: RootState) => state.configurator.selectedPeriod
-  )
-  const packages = useSelector(
-    (state: RootState) => state.configurator.packages
-  )
+  const {
+    selectedServices,
+    services,
+    contractPeriod,
+    selectedPeriod,
+    bundles,
+  } = useSelector((state: RootState) => state.configurator)
 
-  const periodInYears = contractPeriod.slice(0, selectedPeriod)
+  const years = contractPeriod.slice(0, selectedPeriod)
 
-  const offers = [
-    getServicesOffer(services, selectedServices, periodInYears),
-    ...getPackagesOffers(packages, services, selectedServices, periodInYears),
-  ]
+  const offer = getOffer(bundles, services, selectedServices, years)
 
-  const offer = getMostAffordableOffer(offers)
-  console.log({ offers, offer })
+  console.log({ offer })
 
   const serviceChipValues = services
     .filter(({ id }) => selectedServices.includes(id))
@@ -205,7 +189,7 @@ function Offer(props: ConfiguratorViewsBaseProps) {
         {/* <OfferTable
           periods={periodInYears}
           monthlyFees={[124, 125, 123]}
-          packages={offer.map(({ type, price }) => ({
+          bundles={offer.map(({ type, price }) => ({
             label: [type].flat().join(" + "),
             price: Object.values(price),
           }))}
