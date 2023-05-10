@@ -4,20 +4,17 @@ import {
   StyledStatus,
 } from "@/components/atoms/StepLabel/StepLabel.styled"
 import type { StepLabelProps } from "@/components/atoms/StepLabel/StepLabel.types"
-
-const statusNames = {
-  upcomming: "Następny",
-  inprogress: "W trakcie",
-  completed: "Wykonano",
-}
+import $t from "~/translations.json"
 
 function StepLabel(props: StepLabelProps) {
   const { children, number, status, ...restProps } = props
   return (
     <StyledContainer {...restProps}>
-      <StyledIndicator>Krok {number}</StyledIndicator>
+      <StyledIndicator>
+        {$t.step} {number}
+      </StyledIndicator>
       {children}
-      {status && <StyledStatus>{statusNames[status]}</StyledStatus>}
+      {status && <StyledStatus>{$t[status]}</StyledStatus>}
     </StyledContainer>
   )
 }

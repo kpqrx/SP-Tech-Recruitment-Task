@@ -22,13 +22,7 @@ import {
 } from "@/store/slices/configuratorSlice"
 import { useCallback, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-
-const translations = {
-  internet: "INTERNET",
-  television: "TELEWIZJA",
-  telephone: "TELEFON",
-  decoder4K: "DEKODER 4K",
-}
+import $t from "~/translations.json"
 
 function ViewBase(props: ConfiguratorViewsBaseProps) {
   const { stepNumber, label, children, ...restProps } = props
@@ -43,12 +37,8 @@ function ViewBase(props: ConfiguratorViewsBaseProps) {
 }
 
 function Services(props: ConfiguratorViewsBaseProps) {
-  const services = useSelector(
-    (state: RootState) => state.configurator.services
-  )
-
-  const selectedServices = useSelector(
-    (state: RootState) => state.configurator.selectedServices
+  const { services, selectedServices } = useSelector(
+    (state: RootState) => state.configurator
   )
   const dispatch = useDispatch()
 
@@ -75,7 +65,7 @@ function Services(props: ConfiguratorViewsBaseProps) {
         {services.map(({ id, type, price, dependsOn }) => (
           <ServiceTile
             key={id}
-            label={translations[type as keyof typeof translations]}
+            label={$t[type as keyof typeof $t]}
             price={
               typeof price === "number"
                 ? price
@@ -99,11 +89,8 @@ function Services(props: ConfiguratorViewsBaseProps) {
 }
 
 function ContractPeriod(props: ConfiguratorViewsBaseProps) {
-  const contractPeriod = useSelector(
-    (state: RootState) => state.configurator.contractPeriod
-  )
-  const selectedPeriod = useSelector(
-    (state: RootState) => state.configurator.selectedPeriod
+  const { contractPeriod, selectedPeriod } = useSelector(
+    (state: RootState) => state.configurator
   )
   const dispatch = useDispatch()
   const [period, setPeriod] = useState(selectedPeriod)
@@ -122,23 +109,26 @@ function ContractPeriod(props: ConfiguratorViewsBaseProps) {
         <StyledContractPeriodTypographyWrapper>
           <StyledContractPeriodTypography>
             <StyledContractPeriodTypography.Title>
-              Czas trwania
+              {$t.contractTimespan}
             </StyledContractPeriodTypography.Title>
-            {period} {period === 1 ? "rok" : "lata"}
+            {period} {period === 1 ? $t.year : $t.years}
           </StyledContractPeriodTypography>
+
           <StyledContractPeriodTypography>
             <StyledContractPeriodTypography.Title>
-              Początek okresu trwania umowy
+              {$t.contractStartYear}
             </StyledContractPeriodTypography.Title>
             {contractPeriod[0]}
           </StyledContractPeriodTypography>
+
           <StyledContractPeriodTypography>
             <StyledContractPeriodTypography.Title>
-              Koniec okresu trwania umowy
+              {$t.contractEndYear}
             </StyledContractPeriodTypography.Title>
             {contractPeriod[period - 1]}
           </StyledContractPeriodTypography>
         </StyledContractPeriodTypographyWrapper>
+
         <StyledContractPeriodSlider
           values={contractPeriod}
           minValue={1}
@@ -159,41 +149,37 @@ function Offer(props: ConfiguratorViewsBaseProps) {
     bundles,
   } = useSelector((state: RootState) => state.configurator)
 
+  const serviceChipValues = services
+    .filter(({ id }) => selectedServices.includes(id))
+    .map(({ type }) => $t[type as keyof typeof $t])
+
+  const periodChipValue = `${selectedPeriod} ${
+    selectedPeriod === 1 ? $t.year : $t.years
+  }`
+
   const years = contractPeriod.slice(0, selectedPeriod)
 
   const offer = getOffer(bundles, services, selectedServices, years)
 
   console.log({ offer })
 
-  const serviceChipValues = services
-    .filter(({ id }) => selectedServices.includes(id))
-    .map(({ type }) => translations[type as keyof typeof translations])
-
-  const periodChipValue = `${selectedPeriod} ${
-    selectedPeriod === 1 ? "rok" : "lata"
-  }`
-
   return (
     <ViewBase {...props}>
       <StyledOfferWrapper>
         <StyledOfferChipListingsWrapper>
           <ChipListing
-            label="Czas trwania umowy:"
+            label={$t.contractTimespan}
             chips={[periodChipValue]}
           />
           <ChipListing
-            label="Usługi:"
+            label={$t.services}
             chips={serviceChipValues}
           />
         </StyledOfferChipListingsWrapper>
-        {/* <OfferTable
-          periods={periodInYears}
-          monthlyFees={[124, 125, 123]}
-          bundles={offer.map(({ type, price }) => ({
-            label: [type].flat().join(" + "),
-            price: Object.values(price),
-          }))}
-        /> */}
+        <OfferTable
+          years={years}
+          offer={offer}
+        />
       </StyledOfferWrapper>
     </ViewBase>
   )

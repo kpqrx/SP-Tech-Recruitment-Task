@@ -9,6 +9,7 @@ import {
 import type { SliderProps } from "@/components/molecules/Slider/Slider.types"
 import { useMotionValue } from "framer-motion"
 import { useCallback, useEffect, useRef } from "react"
+import $t from "~/translations.json"
 
 function Slider(props: SliderProps) {
   const { values, value, minValue = 0, onChange, ...restProps } = props
@@ -81,14 +82,14 @@ function Slider(props: SliderProps) {
         <StyledThumb />
         {value > minValue && (
           <StyledTooltip
-            label="Do"
+            label={$t.from}
             origin="right"
           >
             {values[value - minValue]}
           </StyledTooltip>
         )}
       </StyledThumbWrapper>
-      <StyledTooltip label="Od">{values[0]}</StyledTooltip>
+      <StyledTooltip label={$t.to}>{values[0]}</StyledTooltip>
     </StyledContainer>
   )
 }

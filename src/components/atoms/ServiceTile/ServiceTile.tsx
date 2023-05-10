@@ -7,6 +7,7 @@ import {
 import type { ServiceTileProps } from "@/components/atoms/ServiceTile/ServiceTile.types"
 import type { ChangeEvent } from "react"
 import { useCallback } from "react"
+import $t from "~/translations.json"
 
 function ServiceTile(props: ServiceTileProps) {
   const {
@@ -39,7 +40,11 @@ function ServiceTile(props: ServiceTileProps) {
       />
       <span>{label}</span>
       <StyledOffer>
-        od <StyledPrice>{price} zł</StyledPrice> / msc
+        {$t.from}{" "}
+        <StyledPrice>
+          {price} {$t.currency}
+        </StyledPrice>{" "}
+        / {$t.monthAbbr}
       </StyledOffer>
     </StyledContainer>
   )

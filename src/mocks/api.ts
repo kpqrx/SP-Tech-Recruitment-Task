@@ -1,5 +1,5 @@
 import { setupWorker, rest } from "msw"
-import { services, bundles, contractPeriod } from "../../dataset.json"
+import { services, bundles, contractPeriod } from "~/dataset.json"
 
 export const handlers = [
   rest.get("/api/services", (_req, res, ctx) => {

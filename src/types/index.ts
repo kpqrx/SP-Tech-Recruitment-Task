@@ -1,4 +1,4 @@
-export type PriceType = { [year: number]: number } | number
+export type PriceType = { [year: number]: number }
 
 export type BundleType = {
   services: number[]

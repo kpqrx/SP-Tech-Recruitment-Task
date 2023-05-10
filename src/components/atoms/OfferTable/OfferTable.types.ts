@@ -1,8 +1,6 @@
+import type { OfferType } from "@/types"
+
 export interface OfferTableProps {
-  periods: number[]
-  monthlyFees: number[]
-  packages: {
-    label: string
-    price: number[]
-  }[]
+  years: number[]
+  offer: OfferType
 }

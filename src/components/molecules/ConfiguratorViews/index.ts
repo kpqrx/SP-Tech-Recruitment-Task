@@ -1,1 +1,1 @@
-export { default } from "./AssistantViews"
+export { default } from "./ConfiguratorViews"

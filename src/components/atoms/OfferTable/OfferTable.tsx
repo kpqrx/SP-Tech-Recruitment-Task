@@ -7,23 +7,29 @@ import {
   StyledFoot,
 } from "@/components/atoms/OfferTable/OfferTable.styled"
 import type { OfferTableProps } from "@/components/atoms/OfferTable/OfferTable.types"
+import { sumColumns } from "@/helpers"
+import $t from "~/translations.json"
 
 function OfferTable(props: OfferTableProps) {
-  const { periods, packages, monthlyFees, ...restProps } = props
-  console.log(
-    packages.length,
-    periods.length,
-    monthlyFees.length,
-    packages.some(({ price }) => price.length !== periods.length)
-  )
+  const { years, offer, ...restProps } = props
+
   if (
-    packages.some(({ price }) => price.length !== periods.length) ||
-    monthlyFees.length !== periods.length
+    offer.some(({ price }) => Object.entries(price).length !== years.length)
   ) {
     throw Error(
-      "The props structure is invalid, number of periods doesn't match with packages / monthly fees."
+      "The props structure is invalid, number of years doesn't match with packages / monthly fees."
     )
   }
+
+  const transformedOffer = offer.map(({ type, price }) => ({
+    label: [type]
+      .flat()
+      .map((phrase) => $t[phrase as keyof typeof $t])
+      .join(" + "),
+    price: Object.values(price),
+  }))
+
+  const monthlyFees = sumColumns(transformedOffer.map(({ price }) => price))
 
   return (
     <StyledContainer>
@@ -31,27 +37,32 @@ function OfferTable(props: OfferTableProps) {
         <StyledHead>
           <tr>
             <StyledCell>&nbsp;</StyledCell>
-            {periods.map((period) => (
-              <StyledCell>{period}</StyledCell>
+            {years.map((year) => (
+              <StyledCell>{year}</StyledCell>
             ))}
           </tr>
         </StyledHead>
         <tbody>
-          {packages.map(({ label, price }, index) => (
+          {transformedOffer.map(({ label, price }, index) => (
             <tr key={index}>
               <StyledCell>{label}</StyledCell>
               {price.map((price) => (
-                <StyledCell>od {price} zł / msc</StyledCell>
+                <StyledCell>
+                  {price} {$t.currency} / {$t.monthAbbr}
+                </StyledCell>
               ))}
             </tr>
           ))}
         </tbody>
         <StyledFoot>
           <tr>
-            <StyledCell>Wysokość abonamentu miesięcznego</StyledCell>
+            <StyledCell>{$t.monthlyFee}</StyledCell>
             {monthlyFees.map((fee) => (
               <StyledCell>
-                <StyledSummaryPrice>{fee} zł</StyledSummaryPrice> / msc
+                <StyledSummaryPrice>
+                  {fee} {$t.currency}
+                </StyledSummaryPrice>{" "}
+                / {$t.monthAbbr}
               </StyledCell>
             ))}
           </tr>

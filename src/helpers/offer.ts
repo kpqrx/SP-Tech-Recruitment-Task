@@ -1,4 +1,4 @@
-import { getSum } from "@/helpers/misc"
+import { getSum } from "@/helpers"
 import type { OfferType, BundleType, ServiceType, PriceType } from "@/types"
 
 const getRangedPrice = (price: PriceType, years: number[]) =>

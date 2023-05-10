@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components"
-import designTokens from "../../design-tokens.json"
+import designTokens from "~/design-tokens.json"
 
 const { fontFamily, spacing, fontSize, fontWeight, lineHeight, ...theme } =
   designTokens
@@ -38,7 +38,7 @@ export const GlobalStyle = createGlobalStyle`
       font: inherit;
       vertical-align: baseline;
     }
-    
+
     table {
       border-collapse: collapse;
       border-spacing: 0;

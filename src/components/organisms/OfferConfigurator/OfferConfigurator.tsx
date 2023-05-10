@@ -1,6 +1,6 @@
 import Button from "@/components/atoms/Button"
 import ViewContainer from "@/components/atoms/ViewContainer"
-import ConfiguratorViews from "@/components/molecules/ConfiguratorViews/ConfiguratorViews"
+import ConfiguratorViews from "@/components/molecules/ConfiguratorViews"
 import { StyledStepLabel } from "@/components/organisms/OfferConfigurator/OfferConfigurator.styled"
 import {
   storeBundles,
@@ -12,21 +12,22 @@ import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "@/store"
 import type { HTMLAttributes } from "react"
 import type { StepLabelStatusType } from "@/components/atoms/StepLabel/StepLabel.types"
+import $t from "~/translations.json"
 
 const configuratorViews = [
   {
-    fullLabel: "Wybierz interesujące Cię usługi",
-    shortLabel: "Wybór usług",
+    fullLabel: $t.offerChoice,
+    shortLabel: $t.offerChoiceAlt,
     form: ConfiguratorViews.Services,
   },
   {
-    fullLabel: "Wybierz czas trwania umowy",
-    shortLabel: "Wybór czasu trwania umowy",
+    fullLabel: $t.periodChoice,
+    shortLabel: $t.periodChoiceAlt,
     form: ConfiguratorViews.ContractPeriod,
   },
   {
-    fullLabel: "Plan abonamentowy przygotowany dla Ciebie",
-    shortLabel: "Przedstawienie planu abonamentowego",
+    fullLabel: $t.offerPresentation,
+    shortLabel: $t.offerPresentationAlt,
     form: ConfiguratorViews.Offer,
   },
 ]
@@ -102,7 +103,7 @@ function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
       }
       renderButtons={() => (
         <Button onClick={() => handleCurrentStepChange("next")}>
-          Kontynuuj
+          {$t.continue}
         </Button>
       )}
       renderContextual={() =>
@@ -111,7 +112,7 @@ function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
             variant="secondary"
             onClick={() => handleCurrentStepChange("prev")}
           >
-            Poprzedni krok
+            {$t.previousStep}
           </Button>
         )
       }
