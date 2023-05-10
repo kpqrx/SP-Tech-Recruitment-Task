@@ -20,10 +20,16 @@ const ChevronIcon = () => (
 )
 
 function Button(props: ButtonProps) {
-  const { children, variant = "primary", ...restProps } = props
+  const {
+    children,
+    variant = "primary",
+    disabled = false,
+    ...restProps
+  } = props
   return (
     <StyledContainer
       $variant={variant}
+      disabled={disabled}
       {...restProps}
     >
       {variant === "secondary" && <ChevronIcon />}

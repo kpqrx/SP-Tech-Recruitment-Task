@@ -82,14 +82,14 @@ function Slider(props: SliderProps) {
         <StyledThumb />
         {value > minValue && (
           <StyledTooltip
-            label={$t.from}
+            label={$t.to}
             origin="right"
           >
             {values[value - minValue]}
           </StyledTooltip>
         )}
       </StyledThumbWrapper>
-      <StyledTooltip label={$t.to}>{values[0]}</StyledTooltip>
+      <StyledTooltip label={$t.from}>{values[0]}</StyledTooltip>
     </StyledContainer>
   )
 }

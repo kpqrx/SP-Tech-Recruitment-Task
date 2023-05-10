@@ -35,7 +35,7 @@ const configuratorViews = [
 function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
   const [currentStep, setCurrentStep] = useState(0)
   const dispatch = useDispatch()
-  const { services, bundles } = useSelector(
+  const { services, bundles, selectedServices } = useSelector(
     (state: RootState) => state.configurator
   )
 
@@ -88,6 +88,9 @@ function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
     [currentStep, setCurrentStep, steps]
   )
 
+  const shouldForbidNextStep =
+    currentStep === 0 && selectedServices.length === 0
+
   return (
     <ViewContainer
       renderSteps={() =>
@@ -102,7 +105,10 @@ function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
         ))
       }
       renderButtons={() => (
-        <Button onClick={() => handleCurrentStepChange("next")}>
+        <Button
+          onClick={() => handleCurrentStepChange("next")}
+          disabled={shouldForbidNextStep}
+        >
           {$t.continue}
         </Button>
       )}

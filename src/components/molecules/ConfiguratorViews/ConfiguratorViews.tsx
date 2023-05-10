@@ -13,8 +13,8 @@ import {
   StyledOfferChipListingsWrapper,
   StyledOfferWrapper,
 } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.styled"
-import type { ConfiguratorViewsBaseProps } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.types"
 import { getOffer } from "@/helpers"
+import type { ConfiguratorViewsBaseProps } from "@/components/molecules/ConfiguratorViews/ConfiguratorViews.types"
 import type { RootState } from "@/store"
 import {
   updateSelectedPeriod,
