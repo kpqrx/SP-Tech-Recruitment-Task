@@ -8,7 +8,7 @@ import {
 } from "@/components/molecules/Slider/Slider.styled"
 import type { SliderProps } from "@/components/molecules/Slider/Slider.types"
 import { useMotionValue } from "framer-motion"
-import { useCallback, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import $t from "~/translations.json"
 
 function Slider(props: SliderProps) {
@@ -28,7 +28,7 @@ function Slider(props: SliderProps) {
     }
   })
 
-  const handlePointerDown = useCallback(() => {
+  const handlePointerDown = () => {
     function handlePointerMove(event: PointerEvent) {
       if (!containerRef.current) {
         return
@@ -65,7 +65,7 @@ function Slider(props: SliderProps) {
 
     document.addEventListener("pointermove", handlePointerMove)
     document.addEventListener("pointerup", handlePointerUp)
-  }, [])
+  }
 
   return (
     <StyledContainer
