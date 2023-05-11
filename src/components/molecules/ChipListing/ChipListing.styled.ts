@@ -2,8 +2,8 @@ import styled from "styled-components"
 
 export const StyledContainer = styled.div`
   display: flex;
-  align-items: baseline;
-  gap: ${({ theme }) => theme.spacing("md")};
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing("lg")};
 `
 
 export const StyledLabel = styled.span`

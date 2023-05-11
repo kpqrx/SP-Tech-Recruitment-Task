@@ -37,8 +37,8 @@ function OfferTable(props: OfferTableProps) {
         <StyledHead>
           <tr>
             <StyledCell>&nbsp;</StyledCell>
-            {years.map((year) => (
-              <StyledCell>{year}</StyledCell>
+            {years.map((year, index) => (
+              <StyledCell key={index}>{year}</StyledCell>
             ))}
           </tr>
         </StyledHead>
@@ -46,8 +46,8 @@ function OfferTable(props: OfferTableProps) {
           {transformedOffer.map(({ label, price }, index) => (
             <tr key={index}>
               <StyledCell>{label}</StyledCell>
-              {price.map((price) => (
-                <StyledCell>
+              {price.map((price, index) => (
+                <StyledCell key={index}>
                   {price} {$t.currency} / {$t.monthAbbr}
                 </StyledCell>
               ))}
@@ -57,8 +57,8 @@ function OfferTable(props: OfferTableProps) {
         <StyledFoot>
           <tr>
             <StyledCell>{$t.monthlyFee}</StyledCell>
-            {monthlyFees.map((fee) => (
-              <StyledCell>
+            {monthlyFees.map((fee, index) => (
+              <StyledCell key={index}>
                 <StyledSummaryPrice>
                   {fee} {$t.currency}
                 </StyledSummaryPrice>{" "}

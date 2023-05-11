@@ -4,6 +4,8 @@ export const StyledContainer = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
   grid-template-columns: minmax(auto, 296px) auto;
+  border-radius: ${({ theme }) => theme.radii.md};
+  overflow: hidden;
 `
 
 export const StyledStepsWrapper = styled.div`

@@ -12,17 +12,18 @@ export const StyledContainer = styled.div<{
   ${({ theme }) => theme.typography.base};
   color: ${({ theme }) => theme.color.black};
   background-color: ${({ theme }) => theme.color.gray[300]};
+  border-radius: ${({ theme }) => theme.radii.sm};
 
   ${({ $isChecked }) =>
     $isChecked &&
     css`
-      box-shadow: 0 0 8px 4px hsl(0, 0%, 0%, 20%);
+      box-shadow: 0 0 0 4px ${({ theme }) => theme.color.orange[100]};
     `}
 
   ${({ $isDisabled }) =>
     $isDisabled &&
     css`
-      opacity: 0.5;
+      opacity: 0.35;
     `}
 `
 
@@ -33,6 +34,10 @@ export const StyledInput = styled.input`
   inset: 0;
   opacity: 0;
   cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `
 
 export const StyledPrice = styled.span`

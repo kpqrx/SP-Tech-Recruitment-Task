@@ -7,7 +7,7 @@ import {
 import type { ChipListingProps } from "@/components/molecules/ChipListing/ChipListing.types"
 
 function ChipListing(props: ChipListingProps) {
-  const { label, chips, ...restProps } = props
+  const { label, chips, renderAfter, ...restProps } = props
   return (
     <StyledContainer {...restProps}>
       <StyledLabel>{label}</StyledLabel>
@@ -18,6 +18,7 @@ function ChipListing(props: ChipListingProps) {
           </li>
         ))}
       </StyledChipsList>
+      {renderAfter && renderAfter()}
     </StyledContainer>
   )
 }

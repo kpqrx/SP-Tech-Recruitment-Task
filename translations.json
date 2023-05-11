@@ -25,5 +25,7 @@
   "previousStep": "Poprzedni krok",
   "monthAbbr": "msc",
   "currency": "zł",
-  "monthlyFee": "Wysokość abonamentu miesięcznego"
+  "monthlyFee": "Wysokość abonamentu miesięcznego",
+  "edit": "Edytuj",
+  "save": "Zapisz"
 }

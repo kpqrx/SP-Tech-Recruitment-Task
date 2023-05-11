@@ -7,12 +7,14 @@ import {
   storeServices,
   storeContractPeriod,
 } from "@/store/slices/configuratorSlice"
-import { useCallback, useEffect, useState } from "react"
+import { setCurrentStep } from "@/store/slices/baseSlice"
+import { useCallback, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "@/store"
 import type { HTMLAttributes } from "react"
 import type { StepLabelStatusType } from "@/components/atoms/StepLabel/StepLabel.types"
 import $t from "~/translations.json"
+import { ChevronLeft } from "react-feather"
 
 const configuratorViews = [
   {
@@ -33,10 +35,12 @@ const configuratorViews = [
 ]
 
 function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
-  const [currentStep, setCurrentStep] = useState(0)
   const dispatch = useDispatch()
   const { services, bundles, selectedServices } = useSelector(
     (state: RootState) => state.configurator
+  )
+  const { currentStep, nextStep } = useSelector(
+    (state: RootState) => state.base
   )
 
   useEffect(() => {
@@ -73,22 +77,18 @@ function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
         : ("upcomming" as StepLabelStatusType),
   }))
 
-  const handleCurrentStepChange = useCallback(
-    (mode: "next" | "prev") => {
-      const shouldSkipChange =
-        (mode === "next" && currentStep === steps.length - 1) ||
-        (mode === "prev" && currentStep === 0)
-
-      if (shouldSkipChange) {
+  const handleMainButtonClick = useCallback(
+    (currentStep: number, forceStep?: number | null) => {
+      if (typeof forceStep === "number") {
+        dispatch(setCurrentStep({ next: null, current: forceStep }))
         return
       }
-
-      setCurrentStep((prevStep) => prevStep + (mode === "next" ? 1 : -1))
+      dispatch(setCurrentStep({ next: null, current: currentStep }))
     },
-    [currentStep, setCurrentStep, steps]
+    [dispatch]
   )
 
-  const shouldForbidNextStep =
+  const shouldDisableMainButton =
     currentStep === 0 && selectedServices.length === 0
 
   return (
@@ -104,20 +104,25 @@ function OfferConfigurator(props: HTMLAttributes<HTMLDivElement>) {
           </StyledStepLabel>
         ))
       }
-      renderButtons={() => (
-        <Button
-          onClick={() => handleCurrentStepChange("next")}
-          disabled={shouldForbidNextStep}
-        >
-          {$t.continue}
-        </Button>
-      )}
+      renderButtons={() =>
+        currentStep !== steps.length - 1 && (
+          <Button
+            onClick={() => handleMainButtonClick(currentStep + 1, nextStep)}
+            disabled={shouldDisableMainButton}
+          >
+            {nextStep ? $t.save : $t.continue}
+          </Button>
+        )
+      }
       renderContextual={() =>
         currentStep !== 0 && (
           <Button
             variant="secondary"
-            onClick={() => handleCurrentStepChange("prev")}
+            onClick={() =>
+              dispatch(setCurrentStep({ current: currentStep - 1 }))
+            }
           >
+            <ChevronLeft />
             {$t.previousStep}
           </Button>
         )

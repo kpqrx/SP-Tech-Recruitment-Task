@@ -23,6 +23,9 @@ import {
 import { useCallback, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import $t from "~/translations.json"
+import Button from "@/components/atoms/Button/Button"
+import { Edit } from "react-feather"
+import { setCurrentStep } from "@/store/slices/baseSlice"
 
 function ViewBase(props: ConfiguratorViewsBaseProps) {
   const { stepNumber, label, children, ...restProps } = props
@@ -148,6 +151,7 @@ function Offer(props: ConfiguratorViewsBaseProps) {
     selectedPeriod,
     bundles,
   } = useSelector((state: RootState) => state.configurator)
+  const dispatch = useDispatch()
 
   const serviceChipValues = services
     .filter(({ id }) => selectedServices.includes(id))
@@ -170,10 +174,30 @@ function Offer(props: ConfiguratorViewsBaseProps) {
           <ChipListing
             label={$t.contractTimespan}
             chips={[periodChipValue]}
+            renderAfter={() => (
+              <Button
+                variant="tertiary"
+                onClick={() =>
+                  dispatch(setCurrentStep({ current: 1, next: 2 }))
+                }
+              >
+                <Edit /> {$t.edit}
+              </Button>
+            )}
           />
           <ChipListing
             label={$t.services}
             chips={serviceChipValues}
+            renderAfter={() => (
+              <Button
+                variant="tertiary"
+                onClick={() =>
+                  dispatch(setCurrentStep({ current: 0, next: 2 }))
+                }
+              >
+                <Edit /> {$t.edit}
+              </Button>
+            )}
           />
         </StyledOfferChipListingsWrapper>
         <OfferTable

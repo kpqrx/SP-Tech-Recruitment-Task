@@ -14,6 +14,7 @@ export const StyledTrack = styled.div`
   position: relative;
   z-index: 0;
   overflow: hidden;
+  position: all;
 `
 
 export const StyledProgress = styled(motion.div)`
@@ -24,7 +25,7 @@ export const StyledProgress = styled(motion.div)`
   height: 100%;
   transition: transform 0.1s ease;
   transform-origin: left;
-  background-color: ${({ theme }) => theme.color.gray[500]};
+  background-color: ${({ theme }) => theme.color.orange[200]};
 `
 
 export const StyledThumbWrapper = styled(motion.div)`

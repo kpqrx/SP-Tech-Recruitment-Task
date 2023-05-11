@@ -30,6 +30,6 @@ export const Checked: Story = {
   args: {
     label: "Disabled Service Tile",
     price: 59,
-    defaultChecked: true,
+    checked: true,
   },
 }
