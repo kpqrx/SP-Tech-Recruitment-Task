@@ -15,6 +15,11 @@ export const GlobalStyle = createGlobalStyle`
         font-family: inherit;
         border: none;
         background: transparent;
+
+        &:focus-visible {
+          outline: 2px solid ${theme.color.orange[300]};
+          outline-offset: 6px;
+        }
     }
 
     ul, ol {

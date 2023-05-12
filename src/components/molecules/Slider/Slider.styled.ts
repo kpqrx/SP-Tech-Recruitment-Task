@@ -1,9 +1,14 @@
 import styled, { css } from "styled-components"
-import { motion } from "framer-motion"
 import Tooltip from "@/components/atoms/Tooltip"
 
 export const StyledContainer = styled.div`
   position: relative;
+
+  &:focus-within {
+    outline: 2px solid ${({ theme }) => theme.color.orange[300]};
+    outline-offset: ${({ theme }) => theme.spacing("sm")};
+    border-radius: ${({ theme }) => theme.radii.sm};
+  }
 `
 
 export const StyledTrack = styled.div`
@@ -17,7 +22,7 @@ export const StyledTrack = styled.div`
   position: all;
 `
 
-export const StyledProgress = styled(motion.div)`
+export const StyledProgress = styled.div`
   position: absolute;
   top: 0;
   left: -100%;
@@ -26,9 +31,10 @@ export const StyledProgress = styled(motion.div)`
   transition: transform 0.1s ease;
   transform-origin: left;
   background-color: ${({ theme }) => theme.color.orange[200]};
+  transform: translateX(var(--x));
 `
 
-export const StyledThumbWrapper = styled(motion.div)`
+export const StyledThumbWrapper = styled.div`
   position: absolute;
   display: flex;
   flex-flow: column;
@@ -36,11 +42,12 @@ export const StyledThumbWrapper = styled(motion.div)`
   left: -12px;
   top: -8px;
   transition: transform 0.125s ease;
+  transform: translateX(var(--x));
 `
 
 export const StyledTooltip = styled(Tooltip)`
-  position: relative;
-  top: ${({ theme }) => theme.spacing("sm")};
+  position: absolute;
+  top: ${({ theme }) => theme.spacing("md")};
 
   ${({ origin }) =>
     origin === "left" &&
@@ -51,8 +58,8 @@ export const StyledTooltip = styled(Tooltip)`
   ${({ origin }) =>
     origin === "right" &&
     css`
-      top: 0;
       right: calc(100% - 12px);
+      transform: translateY(${({ theme }) => theme.spacing("xs")});
     `}
 `
 
@@ -64,6 +71,7 @@ export const StyledThumb = styled.span`
   position: relative;
   inset: 0;
   z-index: 1;
+  outline: none;
 
   ${StyledTooltip} {
     position: relative;

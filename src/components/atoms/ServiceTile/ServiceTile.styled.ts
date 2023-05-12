@@ -13,6 +13,8 @@ export const StyledContainer = styled.div<{
   color: ${({ theme }) => theme.color.black};
   background-color: ${({ theme }) => theme.color.gray[300]};
   border-radius: ${({ theme }) => theme.radii.sm};
+  transition: 0.125s ease;
+  transition-property: box-shadow, opacity;
 
   ${({ $isChecked }) =>
     $isChecked &&
@@ -25,6 +27,11 @@ export const StyledContainer = styled.div<{
     css`
       opacity: 0.35;
     `}
+
+  &:focus-within {
+    outline: 2px solid ${({ theme }) => theme.color.orange[300]};
+    outline-offset: 6px;
+  }
 `
 
 export const StyledInput = styled.input`

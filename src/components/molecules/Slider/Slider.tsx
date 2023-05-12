@@ -7,24 +7,27 @@ import {
   StyledProgress,
 } from "@/components/molecules/Slider/Slider.styled"
 import type { SliderProps } from "@/components/molecules/Slider/Slider.types"
-import { useMotionValue } from "framer-motion"
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef } from "react"
+import type { KeyboardEventHandler } from "react"
 import $t from "~/translations.json"
 
 function Slider(props: SliderProps) {
   const { values, value, minValue = 0, onChange, ...restProps } = props
   const containerRef = useRef<HTMLDivElement>(null)
-
-  let newValue: number, stepWidth: number
-
-  const position = useMotionValue(0)
+  const newValue = useRef(minValue)
+  const stepWidth = useRef(0)
 
   useEffect(() => {
     if (containerRef.current) {
-      position.set(
-        (containerRef.current.clientWidth / (values.length - 1)) *
+      containerRef.current.style.setProperty(
+        "--x",
+        `${
+          (containerRef.current.clientWidth / (values.length - 1)) *
           (value - minValue)
+        }px`
       )
+
+      stepWidth.current = containerRef.current.clientWidth / (values.length - 1)
     }
   })
 
@@ -39,9 +42,9 @@ function Slider(props: SliderProps) {
         containerRef.current.getBoundingClientRect()
       const isMovingRight = Math.min(Math.max(movementX, -4), 4) > 0
 
-      stepWidth = containerWidth / stepsCount
-      newValue = Math.min(
-        Math.max(Math.round((clientX - containerLeft) / stepWidth), 0),
+      stepWidth.current = containerWidth / stepsCount
+      newValue.current = Math.min(
+        Math.max(Math.round((clientX - containerLeft) / stepWidth.current), 0),
         stepsCount
       )
 
@@ -49,22 +52,65 @@ function Slider(props: SliderProps) {
         Math.max(clientX - containerLeft, 0),
         containerWidth
       )
-      const currentProgress = stepWidth * Math.floor(newPosition / stepWidth)
-      const shouldSnap = isMovingRight
-        ? newPosition >= currentProgress + stepWidth * 0.85
-        : newPosition <= currentProgress + stepWidth * 0.15
 
-      onChange(newValue + minValue)
-      position.set(shouldSnap ? newValue * stepWidth : newPosition)
+      const currentProgress =
+        stepWidth.current * Math.floor(newPosition / stepWidth.current)
+      const shouldSnap = isMovingRight
+        ? newPosition >= currentProgress + stepWidth.current * 0.85
+        : newPosition <= currentProgress + stepWidth.current * 0.15
+
+      containerRef.current.style.setProperty(
+        "--x",
+        `${shouldSnap ? newValue.current * stepWidth.current : newPosition}px`
+      )
+      if (shouldSnap) {
+        onChange(newValue.current + minValue)
+      }
     }
 
     function handlePointerUp() {
-      position.set(newValue * stepWidth)
+      if (!containerRef.current) {
+        return
+      }
+
+      containerRef.current.style.setProperty(
+        "--x",
+        `${newValue.current * stepWidth.current}px`
+      )
+      onChange(newValue.current + minValue)
       document.removeEventListener("pointermove", handlePointerMove)
     }
 
     document.addEventListener("pointermove", handlePointerMove)
     document.addEventListener("pointerup", handlePointerUp)
+  }
+
+  const handleKeyDown: KeyboardEventHandler = (event) => {
+    if (!containerRef.current) {
+      return
+    }
+
+    const ARROW_LEFT = "ArrowLeft"
+    const ARROW_RIGHT = "ArrowRight"
+
+    const { key } = event
+
+    const isInvalidKey = ![ARROW_LEFT, ARROW_RIGHT].includes(key)
+    const isEdgeValue =
+      (key === ARROW_LEFT && value === minValue) ||
+      (key === ARROW_RIGHT && value === values.length)
+
+    if (isInvalidKey || isEdgeValue) {
+      return
+    }
+
+    newValue.current = newValue.current + (key === ARROW_RIGHT ? 1 : -1)
+
+    onChange(newValue.current + minValue)
+    containerRef.current.style.setProperty(
+      "--x",
+      `${newValue.current * stepWidth.current}px`
+    )
   }
 
   return (
@@ -73,13 +119,13 @@ function Slider(props: SliderProps) {
       {...restProps}
     >
       <StyledTrack>
-        <StyledProgress style={{ x: position }} />
+        <StyledProgress />
       </StyledTrack>
-      <StyledThumbWrapper
-        onPointerDown={handlePointerDown}
-        style={{ x: position }}
-      >
-        <StyledThumb />
+      <StyledThumbWrapper onPointerDown={handlePointerDown}>
+        <StyledThumb
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+        />
         {value > minValue && (
           <StyledTooltip
             label={$t.to}

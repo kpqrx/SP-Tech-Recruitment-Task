@@ -8,6 +8,8 @@ export const StyledContainer = styled.button<{
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
+  transition: background-color 0.125s ease;
+  border-radius: ${({ theme }) => theme.radii.sm};
 
   ${({ $variant }) =>
     $variant === "primary" &&
@@ -15,9 +17,9 @@ export const StyledContainer = styled.button<{
       padding: ${({ theme }) => theme.spacing("sm", "lg")};
       background-color: ${({ theme }) => theme.color.orange[300]};
       color: ${({ theme }) => theme.color.white};
-      border-radius: ${({ theme }) => theme.radii.sm};
 
-      &:hover {
+      &:hover,
+      &:active {
         background-color: ${({ theme }) => theme.color.orange[200]};
       }
 
@@ -58,7 +60,8 @@ export const StyledContainer = styled.button<{
         stroke-width: 0.075rem;
       }
 
-      &:hover {
+      &:hover,
+      &:active {
         background-color: ${({ theme }) => theme.color.gray[300]};
       }
     `};
