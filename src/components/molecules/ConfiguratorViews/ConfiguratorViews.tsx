@@ -165,8 +165,6 @@ function Offer(props: ConfiguratorViewsBaseProps) {
 
   const offer = getOffer(bundles, services, selectedServices, years)
 
-  console.log({ offer })
-
   return (
     <ViewBase {...props}>
       <StyledOfferWrapper>
