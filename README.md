@@ -12,6 +12,28 @@ Uzytkownik moze w dowolnej chwili powrócić do poprzednich kroków dopasowując
 
 [Szczegóły zadania](https://www.sptech.pl/_files/ugd/764a63_50328068d6fd4a6e9f581c79eb90b7e9.pdf)
 
+### Uruchomienie aplikacji
+
+Aplikacja wykorzystuje manager paczek _pnpm_. Alternatywnie do instalacji i uruchomienia można wykorzystać dowolny inny np. _npm_, _yarn_ etc...
+
+Instalacja zależności:
+
+```bash
+pnpm install
+```
+
+Uruchomienie aplikacji:
+
+```bash
+pnpm run dev
+```
+
+Uruchomienie środowiska Storybook:
+
+```bash
+pnpm run storybook
+```
+
 ### Wykorzystane technologie
 
 - React
@@ -19,7 +41,7 @@ Uzytkownik moze w dowolnej chwili powrócić do poprzednich kroków dopasowując
 - TypeScript
 - Styled Components
 - Redux
-- Framer Motion
+- React Feather
 - Mock Service Worker
 - Storybook
 
@@ -33,10 +55,10 @@ Uzytkownik moze w dowolnej chwili powrócić do poprzednich kroków dopasowując
 - 6 maja:
   - [x] przygotowanie komponentów
 - 7 - 10 maja
-  - [ ] rozwój aplikacji
+  - [x] rozwój aplikacji
 - 11 maja:
-  - [ ] testy
-  - [ ] poprawki
+  - [x] testy
+  - [x] poprawki
 
 ### Algorytm odnajdowania najkorzystniejszej oferty
 
