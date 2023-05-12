@@ -7,8 +7,8 @@ import {
   StyledProgress,
 } from "@/components/molecules/Slider/Slider.styled"
 import type { SliderProps } from "@/components/molecules/Slider/Slider.types"
-import { useCallback, useEffect, useRef } from "react"
-import type { KeyboardEventHandler } from "react"
+import { useEffect, useRef } from "react"
+import type { KeyboardEvent, PointerEvent, MouseEvent } from "react"
 import $t from "~/translations.json"
 
 function Slider(props: SliderProps) {
@@ -29,63 +29,100 @@ function Slider(props: SliderProps) {
 
       stepWidth.current = containerRef.current.clientWidth / (values.length - 1)
     }
+
+    const handleSliderResize = () => {
+      if (!containerRef.current) {
+        return
+      }
+
+      stepWidth.current = containerRef.current.clientWidth / (values.length - 1)
+
+      containerRef.current.style.setProperty(
+        "--x",
+        `${value + minValue * stepWidth.current}px`
+      )
+    }
+
+    window.addEventListener("resize", handleSliderResize)
+
+    return () => window.removeEventListener("resize", handleSliderResize)
   })
 
-  const handlePointerDown = () => {
-    function handlePointerMove(event: PointerEvent) {
-      if (!containerRef.current) {
-        return
-      }
-      const { clientX, movementX } = event
-      const stepsCount = values.length - 1
-      const { width: containerWidth, left: containerLeft } =
-        containerRef.current.getBoundingClientRect()
-      const isMovingRight = Math.min(Math.max(movementX, -4), 4) > 0
-
-      stepWidth.current = containerWidth / stepsCount
-      newValue.current = Math.min(
-        Math.max(Math.round((clientX - containerLeft) / stepWidth.current), 0),
-        stepsCount
-      )
-
-      const newPosition = Math.min(
-        Math.max(clientX - containerLeft, 0),
-        containerWidth
-      )
-
-      const currentProgress =
-        stepWidth.current * Math.floor(newPosition / stepWidth.current)
-      const shouldSnap = isMovingRight
-        ? newPosition >= currentProgress + stepWidth.current * 0.85
-        : newPosition <= currentProgress + stepWidth.current * 0.15
-
-      containerRef.current.style.setProperty(
-        "--x",
-        `${shouldSnap ? newValue.current * stepWidth.current : newPosition}px`
-      )
-      if (shouldSnap) {
-        onChange(newValue.current + minValue)
-      }
+  const handleUpdateThumbPosition = (event: PointerEvent) => {
+    if (!containerRef.current) {
+      return
     }
+    const { clientX, movementX } = event
+    const stepsCount = values.length - 1
+    const { width: containerWidth, left: containerLeft } =
+      containerRef.current.getBoundingClientRect()
+    const isMovingRight = Math.min(Math.max(movementX, -4), 4) > 0
 
-    function handlePointerUp() {
-      if (!containerRef.current) {
-        return
-      }
+    stepWidth.current = containerWidth / stepsCount
+    newValue.current = Math.min(
+      Math.max(Math.round((clientX - containerLeft) / stepWidth.current), 0),
+      stepsCount
+    )
 
-      containerRef.current.style.setProperty(
-        "--x",
-        `${newValue.current * stepWidth.current}px`
-      )
+    const newPosition = Math.min(
+      Math.max(clientX - containerLeft, 0),
+      containerWidth
+    )
+
+    const currentProgress =
+      stepWidth.current * Math.floor(newPosition / stepWidth.current)
+    const shouldSnap = isMovingRight
+      ? newPosition >= currentProgress + stepWidth.current * 0.85
+      : newPosition <= currentProgress + stepWidth.current * 0.15
+
+    containerRef.current.style.setProperty(
+      "--x",
+      `${shouldSnap ? newValue.current * stepWidth.current : newPosition}px`
+    )
+    if (shouldSnap) {
       onChange(newValue.current + minValue)
-      document.removeEventListener("pointermove", handlePointerMove)
     }
-
-    document.addEventListener("pointermove", handlePointerMove)
-    document.addEventListener("pointerup", handlePointerUp)
   }
 
-  const handleKeyDown: KeyboardEventHandler = (event) => {
+  const handleSetThumbPosition = (event: PointerEvent | MouseEvent) => {
+    if (!containerRef.current) {
+      return
+    }
+
+    if (event.currentTarget !== containerRef.current) {
+      document.removeEventListener(
+        "pointermove",
+        handleUpdateThumbPosition as never
+      )
+      return
+    }
+
+    const { clientX } = event
+    const { left: containerLeft } = containerRef.current.getBoundingClientRect()
+
+    const stepsCount = values.length - 1
+    newValue.current = Math.min(
+      Math.max(Math.round((clientX - containerLeft) / stepWidth.current), 0),
+      stepsCount
+    )
+
+    containerRef.current.style.setProperty(
+      "--x",
+      `${newValue.current * stepWidth.current}px`
+    )
+    onChange(newValue.current + minValue)
+    document.removeEventListener(
+      "pointermove",
+      handleUpdateThumbPosition as never
+    )
+  }
+
+  const handleThumbPositionInit = () => {
+    document.addEventListener("pointermove", handleUpdateThumbPosition as never)
+    document.addEventListener("pointerup", handleSetThumbPosition as never)
+  }
+
+  const handleThumbKeyDown = (event: KeyboardEvent) => {
     if (!containerRef.current) {
       return
     }
@@ -116,15 +153,16 @@ function Slider(props: SliderProps) {
   return (
     <StyledContainer
       ref={containerRef}
+      onClick={handleSetThumbPosition}
       {...restProps}
     >
       <StyledTrack>
         <StyledProgress />
       </StyledTrack>
-      <StyledThumbWrapper onPointerDown={handlePointerDown}>
+      <StyledThumbWrapper onPointerDown={handleThumbPositionInit}>
         <StyledThumb
           tabIndex={0}
-          onKeyDown={handleKeyDown}
+          onKeyDown={handleThumbKeyDown}
         />
         {value > minValue && (
           <StyledTooltip
