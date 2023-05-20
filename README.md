@@ -1,40 +1,38 @@
-# SP Tech - zadanie rekrutacyjne
+# Offer configurator for telecommunications service provider company
 
-## Konfigurator ofert dla firmy świadczącej usługi telekomunikacyjne
+## Introduction
 
-### Wprowadzenie
+The configurator guides the user through two steps in which the user selects the services he is interested in and the duration of the contract.
 
-Konfigurator przeprowadza uzytkownika przez dwa kroki w których ten wybiera interesujące go usługi i okres trwania umowy.
+Based on the collected information, the algorithm prepares the most favorable offer, which in the third step presents the user with monthly subscription costs for the selected years.
 
-Algorytm na podstawie zebranych informacji przygotowuje najkorzystniejszą ofertę, którą w trzecim kroku przedstawia uzytkownikowi prezentując miesięcznie koszta abonamentu na dla wybranych lat.
+The user can return to the previous steps at any time, adjusting the criteria of the offer. Then the algorithm will process the information again and propose a new offer taking into account the current criteria.
 
-Uzytkownik moze w dowolnej chwili powrócić do poprzednich kroków dopasowując kryteria oferty. Wówczas algorytm przetworzy informacje ponownie i zaproponuje nową ofertę uwzględniającą aktualne kryteria.
+## Launching the application
 
-[Szczegóły zadania](https://www.sptech.pl/_files/ugd/764a63_50328068d6fd4a6e9f581c79eb90b7e9.pdf)
+The application uses the _pnpm_ package manager. Alternatively, any other e.g. _npm_, _yarn_ etc... can be used for installation and launch.
 
-### Uruchomienie aplikacji
-
-Aplikacja wykorzystuje manager paczek _pnpm_. Alternatywnie do instalacji i uruchomienia można wykorzystać dowolny inny np. _npm_, _yarn_ etc...
-
-Instalacja zależności:
+Dependency installation:
 
 ```bash
 pnpm install
+
 ```
 
-Uruchomienie aplikacji:
+Running the application:
 
 ```bash
 pnpm run dev
 ```
 
-Uruchomienie środowiska Storybook:
+Launching the Storybook environment:
 
 ```bash
 pnpm run storybook
+
 ```
 
-### Wykorzystane technologie
+## Technologies used
 
 - React
 - Vite
@@ -45,28 +43,32 @@ pnpm run storybook
 - Mock Service Worker
 - Storybook
 
-### Roadmap
+## Roadmap
 
-- 5 maja:
-  - [x] analiza problemu
-  - [x] przygotowanie makiet - [Figma](https://www.figma.com/file/2kv37BvNj3hucj2qLP23fn)
-  - [x] przygotowanie projektu: instalacja bibliotek i konfiguracja
-  - [x] przygotowanie zestawu danych
-- 6 maja:
-  - [x] przygotowanie komponentów
-- 7 - 10 maja
-  - [x] rozwój aplikacji
-- 11 maja:
-  - [x] testy
-  - [x] poprawki
+- May 5:
+  - [x] problem analysis
+  - [x] mock-up preparation - [Figma](https://www.figma.com/file/2kv37BvNj3hucj2qLP23fn)
+  - [x] project preparation: installation of libraries and configuration
+  - [x] data set preparation
+- May 6:
+  - [x] preparation of components
+- May 7 - 10
+  - [x] application development
+- May 11:
+  - [x] testing
+  - [x] fixes
 
-### Algorytm odnajdowania najkorzystniejszej oferty
+## Algorithm to find the most advantageous offer
 
-1. Na podstawie wybranych usług skomponuj wszystkie mozliwe oferty:
-   - z samych usług,
-   - z kombinacji pakietów i usług.
-2. Dla kazdej oferty w puli zsumuj miesięczne koszta abonamentu w skali wybranych lat.
-3. Zsumuj miesięczne koszta w skali lat. <br />
-   Uzyskane sumy stanowią **kryterium w ocenie korzystności** danej oferty.
-4. Wybierz minimum spośród uzyskanych kryterów. <br />
-   Oferta reprezentowana przez **najmniejsze kryterium** jest **najkorzystniejszą ofertą**.
+1. Based on the selected services, compose all the possible offers:
+   - from services alone,
+   - from a combination of packages and services.
+2. For each offer in the pool, add up the monthly subscription costs on a scale of selected years.
+3. Add up the monthly costs over the years. <br />
+   The sums obtained are **criteria in the evaluation of the favorability** of a given offer.
+4. Select the minimum among the obtained criteria. <br />
+   The bid represented by the **least criterion** is the **most advantageous offer**.
+
+```
+
+```
